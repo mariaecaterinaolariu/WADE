@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:autoNS1="http://example.org/" xml:base="https://rdfsharp.codeplex.com/">
+  <rdf:Description rdf:about="http://example.org/32">
+    <autoNS1:age>32</autoNS1:age>
+    <autoNS1:region rdf:resource="http://example.org/region" />
+    <autoNS1:dominant_gender>Man</autoNS1:dominant_gender>
+    <autoNS1:gender rdf:resource="http://example.org/gender" />
+    <autoNS1:dominant_race>white</autoNS1:dominant_race>
+    <autoNS1:race rdf:resource="http://example.org/race" />
+    <autoNS1:dominant_emotion>neutral</autoNS1:dominant_emotion>
+    <autoNS1:emotion rdf:resource="http://example.org/emotion" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/region">
+    <autoNS1:x>127</autoNS1:x>
+    <autoNS1:y>86</autoNS1:y>
+    <autoNS1:w>183</autoNS1:w>
+    <autoNS1:h>183</autoNS1:h>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/gender">
+    <autoNS1:Woman>1.3017071411013603</autoNS1:Woman>
+    <autoNS1:Man>98.69829416275024</autoNS1:Man>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/race">
+    <autoNS1:asian>0.06882957875711276</autoNS1:asian>
+    <autoNS1:indian>0.10325101836013575</autoNS1:indian>
+    <autoNS1:black>0.005168710888507782</autoNS1:black>
+    <autoNS1:white>88.3086278070655</autoNS1:white>
+    <autoNS1:middle_eastern>0</autoNS1:middle_eastern>
+    <autoNS1:latino_hispanic>0</autoNS1:latino_hispanic>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/emotion">
+    <autoNS1:angry>9.26337578733256</autoNS1:angry>
+    <autoNS1:disgust>0.0013771580774965845</autoNS1:disgust>
+    <autoNS1:fear>2.2725296291673627</autoNS1:fear>
+    <autoNS1:happy>0.04096243740693481</autoNS1:happy>
+    <autoNS1:sad>30.02322852334636</autoNS1:sad>
+    <autoNS1:surprise>0.027075214576323083</autoNS1:surprise>
+    <autoNS1:neutral>58.371447518891394</autoNS1:neutral>
+  </rdf:Description>
+</rdf:RDF>
