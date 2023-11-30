@@ -88,11 +88,15 @@ https://docs.google.com/document/d/1eiILmaOmAqXWwFkbKdkbUL31oG1_d0Qs_mqRMkXkD2k/
 ### Screenshots
 Data from DeepFace:
 - Example with a portrait and data returned:
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
-- Example of two people portrait and where faces are detected
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+  
+![alt text](https://github.com/mariaecaterinaolariu/WADE/blob/main/images/Zinaida_deepface.png)
+![alt text](https://github.com/mariaecaterinaolariu/WADE/blob/main/images/Zinaida_portait.png)
+- Example of two people portrait and where faces are detected:
+  
+![alt text](https://github.com/mariaecaterinaolariu/WADE/blob/main/images/faces.png)
 - Example of limitations:
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+  
+![alt text](https://github.com/mariaecaterinaolariu/WADE/blob/main/images/faces_no_detection.png)
 
 ### Acknowledgements
 
