@@ -86,7 +86,13 @@ A brief description of the user interface:
 https://docs.google.com/document/d/1eiILmaOmAqXWwFkbKdkbUL31oG1_d0Qs_mqRMkXkD2k/edit
 
 ### Screenshots
-
+Data from DeepFace:
+- Example with a portrait and data returned:
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+- Example of two people portrait and where faces are detected
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+- Example of limitations:
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
 
 ### Acknowledgements
 
