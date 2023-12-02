@@ -15,6 +15,7 @@
             <h2>Table of Contents</h2>
             <ul>
                 <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#architecture">Architecture</a></li>
                 <li><a href="#external-data-sources">External Data Sources</a></li>
                 <li><a href="#data-structures">Data Structures / Models</a></li>
                 <li><a href="#data-flow">Data Flow</a></li>
@@ -29,6 +30,16 @@
             <p>
             Our project aims to create a comprehensive and interactive database of painters and portraits from a Kaggle dataset of images. In this report, we will walk you through our data processing steps, which involve using the DeepFace library and the Wikipedia API to enrich our data with various features and information. We will also discuss how we store our data in a JSON LD format and how we make it accessible through API endpoints. Furthermore, we will showcase our frontend features, such as the gallery view, the painter page, and the correlation graph, which provide our users with a visual and engaging way to explore and interact with our data. Additionally, we will introduce our upload image feature, which allows our users to contribute with new portraits and increase our data diversity.
         </p>
+        </section>
+        <section id="architecture">
+            <p>The application consists of multiple components including a frontend part in Angular, an ASP.NET Core server and Flask. The project includes a user service that manages the authentication, as well as data management services: painting and painters.
+                This modules are designed as microservices and all the information is stored in MongoDB Atlas.
+            </p>
+            <h3>General</h3>
+            <p>
+                The application follows a very simple architecture. The user makes actions in the interface and an API is called. An API Gateway manages the call from the other APIs
+            </p>
+            <img src="../images/architecture.png" alt="architecture" width="850" height="550">
         </section>
         <section id="external-data-sources">
             <h2>External Data Sources</h2>
@@ -77,10 +88,13 @@
             </p>
             <h4>Home/Gallery</h4>
             <p>On this page we will have a gallery of portraits from different painter. The user will be able to apply filters like: gender, painter and serch for images</p>
+            <img src="../images/paintings.png" alt="paintings-gallery" width="500" height="460"/>
             <h4>Painter page</h4>
             <p>The user can access thihs page by clicking on an image from the gallery. Here we will present some information abou the artist and some other paintings. The page allows the user to know information about the artist such as his artistic current and to discover other works of art.</p>
+            <img src="../images/painter.png" alt="painter-page" width="500" height="460"/>
             <h4>Upload</h4>
             <p>The upload page lets the user contribute to our paintings collection. The user will be able to upload a new painting from a painter we already have in our database, so we can have multiple recommendations</p>
+            <img src="../images/upload.png" alt="upload-process" width="500" height="460"/>
             <h4>User Profile</h4>
             <p>The user will be able to view his profile, make changes and even delete his account</p>
             <img src="../images/user-profile.png" alt="user-profile" width="500" height="460"/>
