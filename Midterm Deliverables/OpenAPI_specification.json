@@ -1,0 +1,898 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "version" : "1",
+    "title" : "ImpAPI",
+    "description" : "ImpApi for WADe project"
+  },
+  "servers" : [ {
+    "description" : "SwaggerHub API Auto Mocking",
+    "url" : "https://virtserver.swaggerhub.com/IOANAMALINA629/ImpWAPI/1"
+  }, {
+    "description" : "SwaggerHub API Auto Mocking",
+    "url" : "https://virtserver.swaggerhub.com/IOANAMALINA629/ImpAPI/1.0.0"
+  }, {
+    "url" : "http://127.0.0.1:5000"
+  } ],
+  "security" : [ {
+    "application" : [ "read", "write" ]
+  } ],
+  "paths" : {
+    "/api/users/getById" : {
+      "get" : {
+        "description" : "Get profile of an user",
+        "parameters" : [ {
+          "name" : "user_id",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "72caa3de5632b3814ff64568"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "user_name" : {
+                      "type" : "string"
+                    },
+                    "user_id" : {
+                      "type" : "string"
+                    },
+                    "email" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "example" : {
+                  "user_id" : "72caa3de5632b3814ff64568",
+                  "user_name" : "John Doe",
+                  "email" : "john.doe@gmail.com"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Bad Request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users" : {
+      "post" : {
+        "description" : "Create user profile",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "password" : {
+                    "type" : "string"
+                  },
+                  "email" : {
+                    "type" : "string",
+                    "format" : "email"
+                  }
+                }
+              },
+              "example" : {
+                "userName" : "John Doe",
+                "email" : "john.doe@gmail.com",
+                "password" : "testONE234"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "succes" : {
+                      "type" : "boolean"
+                    }
+                  }
+                },
+                "example" : {
+                  "success" : true
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized. Invalid credentials.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "succes" : {
+                      "type" : "boolean"
+                    }
+                  }
+                },
+                "example" : "Unauthorized. Invalid credentials"
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "description" : "Delete user profile",
+        "parameters" : [ {
+          "name" : "user_id",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "72caa3de5632b3814ff64568"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "properties" : { }
+                },
+                "example" : "No Content"
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : { }
+                },
+                "example" : "Not found"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/paintings/GetPaintingByFilter" : {
+      "get" : {
+        "summary" : "Get all paintings based on a property",
+        "parameters" : [ {
+          "name" : "painter",
+          "in" : "query",
+          "description" : "Filter by painter",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "Nikolaos Lytras"
+          }
+        }, {
+          "name" : "art_current",
+          "in" : "query",
+          "description" : "Filter by art current",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "Expressionism"
+          }
+        }, {
+          "name" : "age",
+          "in" : "query",
+          "description" : "Filter by age of person in portrait",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "example" : 26
+          }
+        }, {
+          "name" : "race",
+          "in" : "query",
+          "description" : "Filter by race",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "White"
+          }
+        }, {
+          "name" : "gender",
+          "in" : "query",
+          "description" : "Filter by gender",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "Man"
+          }
+        }, {
+          "name" : "emotion",
+          "in" : "query",
+          "description" : "Filter by emotion",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "happy"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A list of paintings",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Painting"
+                  }
+                },
+                "example" : [ {
+                  "id" : 2346275864325640,
+                  "title" : "Portrait of F.D",
+                  "painter" : "Nikolaos Lytras",
+                  "art_current" : "Expressionism",
+                  "age" : 26,
+                  "gender" : "Man",
+                  "race" : "white",
+                  "emotion" : "happy"
+                } ]
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Bad Request"
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized, authentication required",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Unauthorized, authentication required"
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Not found"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "hasErrors" : true,
+                  "errorMessage" : "The server encountered an error and could not complete your request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/paintings" : {
+      "get" : {
+        "summary" : "Get all paintings",
+        "responses" : {
+          "200" : {
+            "description" : "A list of paintings",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Painting"
+                  }
+                },
+                "example" : [ {
+                  "id" : 2346275864325640,
+                  "title" : "Portrait of F.D",
+                  "painter" : "Nikolaos Lytras",
+                  "art_current" : "Expressionism",
+                  "age" : 26,
+                  "gender" : "Man",
+                  "race" : "white",
+                  "emotion" : "happy"
+                }, {
+                  "id" : 2346275864325637,
+                  "title" : "Dolorosa",
+                  "painter" : "Julio Romero de Torres",
+                  "art_current" : "symbolism",
+                  "age" : 32,
+                  "gender" : "Woman",
+                  "race" : "white",
+                  "emotion" : "sad"
+                } ]
+              }
+            }
+          },
+          "204" : {
+            "description" : "No content",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Success. No Content"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Bad Request"
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized, authentication required",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Unauthorized, authentication required"
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Not found"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "hasErrors" : true,
+                  "errorMessage" : "The server encountered an error and could not complete your request"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Add a new painting to the gallery",
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PaintingUpload"
+              },
+              "example" : {
+                "image" : "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ...",
+                "painter" : "Pablo Picasso"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Painting added successfully",
+            "content" : {
+              "application/json" : {
+                "example" : {
+                  "message" : "Created. Painting added successfully"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Bad Request"
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized, authentication required",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Unauthorized, authentication required"
+              }
+            }
+          },
+          "415" : {
+            "description" : "Unsupported media type",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Unsupported media type png, jpg required"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/painter/GetPainterById" : {
+      "get" : {
+        "description" : "Get profile of a painter",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "72caa3de5632b3814ff64787"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Painter"
+                },
+                "example" : {
+                  "id" : "72caa3de5632b3814ff64787",
+                  "name" : "Nikolaos Lytras",
+                  "art_current" : [ "Expressionism" ],
+                  "birth_date" : "2/05/1883",
+                  "death_date" : "1/12/1927",
+                  "description" : "Was a Greek modernist painter who specialized in portraits, still-lifes and landscapes."
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Bad Request"
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized, authentication required",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Unauthorized, authentication required"
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Not found"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "hasErrors" : true,
+                  "errorMessage" : "The server encountered an error and could not complete your request."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/painter/GetPainterByPaintingId" : {
+      "get" : {
+        "description" : "Get profile of a painter based on a painting id",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2346275864325640"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Painter"
+                },
+                "example" : {
+                  "id" : "72caa3de5632b3814ff64787",
+                  "name" : "Nikolaos Lytras",
+                  "art_current" : [ "Expressionism" ],
+                  "birth_date" : "2/05/1883",
+                  "death_date" : "1/12/1927",
+                  "description" : "Was a Greek modernist painter who specialized in portraits, still-lifes and landscapes."
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Bad Request"
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized, authentication required",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Unauthorized, authentication required"
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Not found"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "hasErrors" : true,
+                  "errorMessage" : "The server encountered an error and could not complete your request."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/paintings/json-ld/GetAllPaintings" : {
+      "get" : {
+        "summary" : "Get all paintings in JSON-LD format",
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json-ld" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "@context" : "http://schema.org/",
+                  "@type" : "ItemList",
+                  "itemListElement" : [ {
+                    "@type" : "Painting",
+                    "id" : 2346275864325640,
+                    "title" : "Portrait of F.D",
+                    "painter" : "Nikolaos Lytras",
+                    "art_current" : "Expressionism",
+                    "age" : 26,
+                    "gender" : "Man",
+                    "race" : "white",
+                    "emotion" : "happy"
+                  }, {
+                    "@type" : "Painting",
+                    "id" : 2346275864325637,
+                    "title" : "Dolorosa",
+                    "painter" : "Julio Romero de Torres",
+                    "art_current" : "symbolism",
+                    "age" : 32,
+                    "gender" : "Woman",
+                    "race" : "white",
+                    "emotion" : "sad"
+                  } ]
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Bad Request"
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized, authentication required",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Unauthorized, authentication required"
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Not found"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/deepFace/processImage" : {
+      "get" : {
+        "summary" : "Proccess image and save it to Painting Database",
+        "parameters" : [ {
+          "name" : "user_id",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "72caa3de5632b3814ff64568"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success. Painting processed",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Painting"
+                  }
+                },
+                "example" : [ {
+                  "id" : 2346275864325678,
+                  "title" : "Portrait of F.D",
+                  "age" : 26,
+                  "gender" : "Man",
+                  "race" : "white",
+                  "emotion" : "happy"
+                } ]
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Bad Request"
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized, authentication required",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Unauthorized, authentication required"
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Not found"
+              }
+            }
+          },
+          "415" : {
+            "description" : "Unsupported media type",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "Unsupported media type png, jpg required"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "hasErrors" : true,
+                  "errorMessage" : "The server encountered an error and could not complete your request"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Painting" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The unique identifier for the painting"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "The title of the painting"
+          },
+          "painter" : {
+            "type" : "string",
+            "description" : "The name of the painter"
+          },
+          "art_current" : {
+            "type" : "string",
+            "description" : "The art movement of the painting"
+          },
+          "age" : {
+            "type" : "integer",
+            "description" : "The age of the person in the portrait"
+          },
+          "race" : {
+            "type" : "string",
+            "description" : "The race of the person in the portrait"
+          },
+          "gender" : {
+            "type" : "string",
+            "description" : "The gender of the person in the portrait"
+          },
+          "emotion" : {
+            "type" : "string",
+            "description" : "The emotion expressed in the painting"
+          }
+        }
+      },
+      "PaintingUpload" : {
+        "type" : "object",
+        "properties" : {
+          "image" : {
+            "type" : "string",
+            "format" : "binary"
+          },
+          "painter" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Painter" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "birth_data" : {
+            "type" : "string"
+          },
+          "death_date" : {
+            "type" : "string"
+          },
+          "art_current" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "PainterId" : {
+        "name" : "id",
+        "in" : "path",
+        "required" : true,
+        "description" : "ID of the painter",
+        "schema" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "securitySchemes" : {
+      "application" : {
+        "type" : "oauth2",
+        "flows" : {
+          "clientCredentials" : {
+            "tokenUrl" : "http://example.com/oauth/token",
+            "scopes" : {
+              "write" : "allows modifying resources",
+              "read" : "allows reading resources"
+            }
+          }
+        }
+      }
+    }
+  }
+}

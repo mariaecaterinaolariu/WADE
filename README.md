@@ -6,6 +6,7 @@ Develop an extensible microservice-based system able to perform processing tasks
 ## Table of Contents
 [About the Project](#about-the-project)
   * [Documentation](#documentation)
+  * [OpenAPI specification](#openapi-specification)
   * [Tech Stack](#tech-stack)
   * [Frontend](#frontend)
   * [Backend](#backend)
@@ -21,6 +22,10 @@ Our project is an application that showcases portraits from 1900 to 1950 and pro
 ### Documentation - Scholarly HTML
 Please access the folder Midterm Deliverables:
 add link here
+
+### OpenAPI specification
+
+<a href="https://app.swaggerhub.com/apis/IOANAMALINA629/ImpWAPI/1">RestAPI<a>
 
 ### Tech Stack
 

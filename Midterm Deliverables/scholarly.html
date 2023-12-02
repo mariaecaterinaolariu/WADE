@@ -18,6 +18,7 @@
                 <li><a href="#external-data-sources">External Data Sources</a></li>
                 <li><a href="#data-structures">Data Structures / Models</a></li>
                 <li><a href="#data-flow">Data Flow</a></li>
+                <li><a href="#user-guide">Use Cases</a></li>
                 <li><a href="#linked-data-principles">Conformance to Linked Data Principles</a></li>
                 <li><a href="#rdf-model">Conformation to RDF model</a></li>
                 <li><a href="#preliminary-considerations">Preliminary Considerations</a></li>
@@ -44,6 +45,8 @@
             <p>The <b>Painters collection</b> contains the representations of each painter. The document includes the following fields: the painter's name, the information from the Wikipedia API (such as the art current, years they were alive, and a short description). For “@context”, we will include schema.org and follow the vocabulary guidelines presented for description, art current, birth and death date. For “@type”, since we are referring to a person, it will remain Person.</p>
             <p>The Paintings and Painters data models are at the base of our application. In order to expose more functionalities and data about our paintings, we will include some Correlation Graphs for each painter to document their artistic choices. The correlations will be between the ages and emotions of the people portrayed and the gender and emotions. We are hopeful to find interesting associations or preferences of the painters. 
             </p>
+            <p>In order to manage the data within our project, we have made use of the following main models which are aligned to the project's needs</p>
+            <img src="../images/main_models.png" alt="Main Models">
         </section>
         <section id="data-flow">
             <h2>Data Flow</h2>
@@ -53,6 +56,37 @@
             <p>To be able to present all of our data, we will expose a few API endpoints from the backend of our application. We will then process the data in the frontend. Our users will be able to see a gallery view of some (or all) portraits, very similar to how the popular platform Pinterest looks like. Each painting will be clickable with a redirect to a page about the painter. The painter data on the page will be from the database and a correlation graph generated from querying the database.
             </p>
             <p>We will also have an upload image feature. For this feature, we will ask the user to choose from our list of painters and contribute with a portrait image that we do not feature from them. After making sure the image provided is of extension .jpeg/.jpg/.png/.gif, we will transmit this image and the name of the painter to be saved in our database. When saving to our database, there will be a Python script activated that processes the image using the DeepFace library to retrieve age, gender, race and emotion of the people in the uploaded image, in order to include this data in the JSON type file we will include in the database. </p>
+        </section>
+        <section id="use-cases">
+            <h2>Use cases</h2>
+            <h3>Task flows</h3>
+            <h4>Login/Register</h4>
+            <p>In order for the user to have access to our web application, it is mandatory to create an account first. This will be done with our custom login/register or we are considering allowing authentication using a service like Google, to make the process easier for users.
+                The Authentication Service is designed to be secure for users by implementing a method of storing and validating user credentials. For this reason, the password will be saved after is proccessed using an ecryption method, that involves a combination of hash and salt</p>
+                <img src="../images/login.png" alt="Login diagram" width="500" height="460">
+            <h4>General user acccess</h4>
+            <p>The user cam perform the following actions:
+                <ul>
+                    <li>Updating their personal profile.</li>
+                    <li>Deleting their profile</li>
+                    <li>Uploading a new image for existing painters</li>
+                    <li>View image gallery and filter the date acording to his preferences</li>
+                    <li>Visualizing the painter information page</li> 
+                </ul>
+                <img src="../images/general-user.png" alt="general-user" width="500" height="460"/>
+            </p>
+            <h4>Home/Gallery</h4>
+            <p>On this page we will have a gallery of portraits from different painter. The user will be able to apply filters like: gender, painter and serch for images</p>
+            <h4>Painter page</h4>
+            <p>The user can access thihs page by clicking on an image from the gallery. Here we will present some information abou the artist and some other paintings. The page allows the user to know information about the artist such as his artistic current and to discover other works of art.</p>
+            <h4>Upload</h4>
+            <p>The upload page lets the user contribute to our paintings collection. The user will be able to upload a new painting from a painter we already have in our database, so we can have multiple recommendations</p>
+            <h4>User Profile</h4>
+            <p>The user will be able to view his profile, make changes and even delete his account</p>
+            <img src="../images/user-profile.png" alt="user-profile" width="500" height="460"/>
+        </section>
+        <section id="user-guide">
+
         </section>
         <section id="linked-data-principles">
             <h2>Conformance to Linked Data Principles</h2>
