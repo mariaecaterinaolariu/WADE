@@ -3,6 +3,7 @@ import base64
 from flask_cors import CORS
 from deepface import DeepFace
 import os
+import deepfacewiki
 
 app = Flask(__name__)
 CORS(app)
@@ -36,6 +37,16 @@ def get_images():
 def uploaded_file(filename):
     print(filename)
     return send_from_directory(UPLOAD_FOLDER, filename.split(" ")[0])
+
+@app.route('/painters')
+def get_painters():
+    names,pictures = deepfacewiki.get_names_from_files(UPLOAD_FOLDER)
+    return {'names:': list(names), 'pictures': pictures}
+
+@app.route('/painters/<name>')
+def get_painter(name):
+    summary, lifespan, originalImage = deepfacewiki.get_wikipedia_summary(name)
+    return {'summary': summary, 'lifespan': lifespan, 'image': originalImage}
 
 if __name__ == '__main__':
     app.run(debug=True)

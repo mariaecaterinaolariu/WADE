@@ -1,3 +1,23 @@
-<div *ngFor="let image of images">
-    <img [src]="'http://127.0.0.1:5000/uploads/' + image" alt="Image">
+<div class="header">
+    <button mat-button routerLink="/portraits"><mat-icon>house</mat-icon>Home</button>
+    <div class="search-bar">
+        <form class ="example-form">
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Search</mat-label>
+            <mat-icon matPrefix>search</mat-icon>
+            <input type="text"
+                placeholder="Search for an artist, emotion, age ..."
+                matInput
+            />
+        </mat-form-field>
+        </form>
+    </div>
+    <button mat-button>Login <mat-icon>exit_to_app</mat-icon></button>
+  </div>
+  
+
+<div class ="grid">
+    <div class="grid-item" *ngFor="let image of images">
+        <img [src]="'http://127.0.0.1:5000/uploads/' + image" alt="Image">
+    </div>
 </div>

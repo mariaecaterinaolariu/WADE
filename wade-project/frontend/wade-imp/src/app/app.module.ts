@@ -8,6 +8,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { PortraitsComponent } from './features/portraits/portraits.component';
 import { PortraitsService } from './features/portraits/portraits.service';
 import { Base64Pipe } from './shared/pipes/convert-base64.pipe';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import{ MatMenuModule } from '@angular/material/menu';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [
@@ -19,11 +25,17 @@ import { Base64Pipe } from './shared/pipes/convert-base64.pipe';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule 
+    HttpClientModule,
+    MatIconModule,
+    MatButtonModule,
+    MatInputModule, 
+    MatFormFieldModule,
+    MatMenuModule 
   ],
   providers: [
     UploadService,
-    PortraitsService
+    PortraitsService,
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })
