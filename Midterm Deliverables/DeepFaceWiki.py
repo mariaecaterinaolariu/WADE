@@ -69,7 +69,7 @@ def get_wikipedia_summary(title):
         summary = response.json()["extract"]
         description = response.json()["description"]
         # Try to find a lifespan in the summary
-        lifespan_match = re.search(r'\((\d{4})\s*–\s*(\d{4})\)', description)
+        lifespan_match = re.search(r'\((\d{4})\s*-\s*(\d{4})\)', description)
         if lifespan_match:
             birth_year, death_year = lifespan_match.groups()
             lifespan = f"{birth_year} - {death_year}"
