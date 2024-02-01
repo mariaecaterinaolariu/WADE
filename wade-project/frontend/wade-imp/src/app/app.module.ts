@@ -14,13 +14,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import{ MatMenuModule } from '@angular/material/menu';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { PaintersComponent } from './features/painters/painters.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UploadComponent,
     PortraitsComponent,
-    Base64Pipe
+    Base64Pipe,
+    PaintersComponent
   ],
   imports: [
     BrowserModule,

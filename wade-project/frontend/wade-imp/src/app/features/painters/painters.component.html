@@ -1,0 +1,10 @@
+<div *ngIf="painter">
+    <img [src]="painter.image" alt="Painter's portrait">
+    <h2>{{ painter.name }}</h2>
+    <p>{{ painter.lifespan }}</p>
+    <div class="grid">
+        <img [src]="'http://127.0.0.1:5000/uploads/' + image" alt="Image">
+    </div>
+    <p>{{ painter.summary }}</p>
+  </div>
+  

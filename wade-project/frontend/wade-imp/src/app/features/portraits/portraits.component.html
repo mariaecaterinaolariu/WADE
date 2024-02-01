@@ -18,6 +18,8 @@
 
 <div class ="grid">
     <div class="grid-item" *ngFor="let image of images">
+        <a [routerLink]="['/painters', image]">
         <img [src]="'http://127.0.0.1:5000/uploads/' + image" alt="Image">
+        </a>
     </div>
 </div>

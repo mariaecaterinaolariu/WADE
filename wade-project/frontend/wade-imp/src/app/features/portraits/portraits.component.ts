@@ -57,5 +57,4 @@ export class PortraitsComponent {
     // Now you can sort the imageDetails array based on their width
     this.imageDetails.sort((a, b) => a.width - b.width);
   }
-  
 }

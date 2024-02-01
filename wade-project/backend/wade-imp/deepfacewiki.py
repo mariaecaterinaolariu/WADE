@@ -1,7 +1,8 @@
 
 import os
 import re
-
+import cv2
+from deepface import DeepFace
 import requests
 
 
@@ -48,3 +49,40 @@ def get_wikipedia_summary(title):
         return summary, lifespan, originalImage 
     else:
         return "No summary information available.", "Lifespan not found in summary.", originalImage
+
+def get_image_deepface_info(image_path):
+    try:
+        print(image_path)
+        # Assuming the function that might raise a ValueError is DeepFace.analyze()
+        result = DeepFace.analyze(img_path = image_path, 
+            actions = ['age', 'gender', 'race', 'emotion'])
+        objs = result # or whatever key you're interested in
+    except ValueError:
+        # This block will run if DeepFace.analyze() raises a ValueError
+        objs = None
+
+    if objs is None or objs == 0:
+        print("No face detected or an error occurred.")
+
+    return objs
+
+def see_faces(image_path, objs):
+    image = cv2.imread(image_path)
+    for prediction in objs:
+        x = prediction['region']['x']
+        y = prediction['region']['y']
+        w = prediction['region']['w']
+        h = prediction['region']['h']
+
+        start_point = (x, y) # The start coordinate (x, y)
+        end_point = (x+w, y+h) # The end coordinate (x+w, y+h)
+        color = (255, 0, 0) # RGB color code for the border
+        thickness = 2 # Thickness of the border
+
+        cv2.rectangle(image, start_point, end_point, color, thickness)
+
+    #cv2.imshow('Faces: ', image)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
+    return image
+    

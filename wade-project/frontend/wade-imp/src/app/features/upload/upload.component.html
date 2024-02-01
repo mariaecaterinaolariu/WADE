@@ -1,5 +1,17 @@
 <div>
     <input type="file" (change)="onFileSelected($event)">
     <button (click)="uploadImage()">Upload Image</button>
+</div>
+<div id="information" style="display: none;">
+    <button (click)="getImageInfo();getEmotions()">Get Image Info</button>    
+</div> 
+<div *ngIf="fileName">
+    <img [src]="'http://127.0.0.1:5000/analyze/facedetect/' + fileName" alt="Image">
+</div>
+
+<div *ngIf="emotions">
+    <p>Age: {{emotions.age}}</p>
+    <p>Gender: {{emotions.dominant_gender}}</p>
+    <p>Race: {{emotions.dominant_race}}</p>
+    <p>Emotion: {{emotions.dominant_emotion}}</p>
   </div>
-  
