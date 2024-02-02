@@ -27,6 +27,7 @@ export class PortraitsComponent {
     this.portraitsService.getImages()
       .subscribe((imageList: string[]) => {
         this.images = imageList;
+        console.log(this.images);
         this.loadImageDetails();
       });
   }
