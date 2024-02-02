@@ -52,10 +52,6 @@ def analyze_image(filename):
     print(type(newImage))
     print(newImage.shape)
     _, img_encoded = cv2.imencode('.jpg', newImage)
-    def generate():
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + newImage.tobytes() + b'\r\n')
-    #response = Response(generate(),mimetype='multipart/x-mixed-replace; boundary=frame')
     response = Response(response=img_encoded.tobytes(), status=200, mimetype='image/jpeg')
     print(response)
     return response

@@ -1,6 +1,9 @@
 
+import base64
+import json
 import os
 import re
+import time
 import cv2
 from deepface import DeepFace
 import requests
@@ -46,9 +49,11 @@ def get_wikipedia_summary(title):
             lifespan = "Lifespan not found in summary."
         if summary == None:
             return "No summary information available.", lifespan, originalImage
+        if originalImage == None:
+            return summary, lifespan, "originalImage not found in summary."
         return summary, lifespan, originalImage 
     else:
-        return "No summary information available.", "Lifespan not found in summary.", originalImage
+        return "No summary information available.", "Lifespan not found in summary.", "originalImage not found in summary."
 
 def get_image_deepface_info(image_path):
     try:
@@ -56,6 +61,7 @@ def get_image_deepface_info(image_path):
         # Assuming the function that might raise a ValueError is DeepFace.analyze()
         result = DeepFace.analyze(img_path = image_path, 
             actions = ['age', 'gender', 'race', 'emotion'])
+        time.sleep(5)
         objs = result # or whatever key you're interested in
     except ValueError:
         # This block will run if DeepFace.analyze() raises a ValueError
@@ -85,4 +91,62 @@ def see_faces(image_path, objs):
     #cv2.waitKey(0)
     #cv2.destroyAllWindows()
     return image
+
+def encode_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode('utf-8')
+        
+# create json file with data from deepface for each painting in uploads folder
+def create_json_portraits(directory):
+    data = {}
+    index = 0
+    for filename in os.listdir(directory):
+        if filename.endswith(".jpg") or filename.endswith(".png"): 
+            path = os.path.join(directory, filename)
+            image_info = encode_image(path)
+            #wikipedia_info = get_wikipedia_summary(path)
+            deepface_info = get_image_deepface_info(path)
+            if deepface_info == None:
+                print("No face detected or an error occurred.")
+                continue
+            print(filename.split('_')[0])
+            data[index] = {
+                'filename': filename,
+                'emotion': deepface_info[0]['dominant_emotion'],
+                'age': deepface_info[0]['age'],
+                'race': deepface_info[0]['dominant_race'],
+                'image_encoding': image_info,
+                'face_positions': deepface_info[0]['region'],
+                'painter': filename.split('_')[0],
+                'deepface_info': deepface_info
+            }
+            
+            index += 1
+    with open('portraits.json', 'w') as outfile:
+        json.dump(data, outfile)
+# create a json file with data from wikipedia for each painter in uploads folder
+def create_json_painters(directory):
+    data = {}
+    index = 0
+
+    painters = set()
+    for filename in os.listdir(directory):
+        painter = filename.split('_')[0]
+        painter = painter.replace('-', '_')
+        painters.add(painter)
+    painters = list(painters)
+    for painter in painters:
+        summary, lifespan, originalImage = get_wikipedia_summary(painter)
+        data[index] = {
+            'painter': painter,
+            'summary': summary,
+            'lifespan': lifespan,
+            'originalImage': originalImage
+        }
+        index += 1
     
+    with open('painters.json', 'w') as outfile:
+        json.dump(data, outfile)
+
+#create_json_painters('uploads')
+#create_json_portraits('uploads')
