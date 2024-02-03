@@ -115,6 +115,7 @@ def create_json_portraits(directory):
                 'emotion': deepface_info[0]['dominant_emotion'],
                 'age': deepface_info[0]['age'],
                 'race': deepface_info[0]['dominant_race'],
+                'gender':deepface_info[0]['dominant_gender'],
                 'image_encoding': image_info,
                 'face_positions': deepface_info[0]['region'],
                 'painter': filename.split('_')[0],
@@ -147,4 +148,4 @@ def create_json_painters(directory):
         json.dump(data, outfile)
 
 #create_json_painters('uploads')
-#create_json_portraits('uploads')
+create_json_portraits('uploads')
