@@ -98,7 +98,7 @@ def encode_image(image_path):
         
 # create json file with data from deepface for each painting in uploads folder
 def create_json_portraits(directory):
-    data = {}
+    data = []
     index = 0
     for filename in os.listdir(directory):
         if filename.endswith(".jpg") or filename.endswith(".png"): 
@@ -110,7 +110,7 @@ def create_json_portraits(directory):
                 print("No face detected or an error occurred.")
                 continue
             print(filename.split('_')[0])
-            data[index] = {
+            data.append({
                 'filename': filename,
                 'emotion': deepface_info[0]['dominant_emotion'],
                 'age': deepface_info[0]['age'],
@@ -119,15 +119,14 @@ def create_json_portraits(directory):
                 'face_positions': deepface_info[0]['region'],
                 'painter': filename.split('_')[0],
                 'deepface_info': deepface_info
-            }
+            })
             
             index += 1
     with open('portraits.json', 'w') as outfile:
         json.dump(data, outfile)
 # create a json file with data from wikipedia for each painter in uploads folder
 def create_json_painters(directory):
-    data = {}
-    index = 0
+    data = []
 
     painters = set()
     for filename in os.listdir(directory):
@@ -137,13 +136,12 @@ def create_json_painters(directory):
     painters = list(painters)
     for painter in painters:
         summary, lifespan, originalImage = get_wikipedia_summary(painter)
-        data[index] = {
+        data.append({
             'painter': painter,
             'summary': summary,
             'lifespan': lifespan,
             'originalImage': originalImage
-        }
-        index += 1
+        })
     
     with open('painters.json', 'w') as outfile:
         json.dump(data, outfile)
