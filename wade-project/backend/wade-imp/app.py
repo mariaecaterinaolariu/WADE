@@ -1,10 +1,13 @@
 import cv2
+from SPARQLWrapper import SPARQLWrapper, GET, JSON
 from flask import Flask, Response, request, send_from_directory, jsonify, send_file
 import base64
 from flask_cors import CORS
 from deepface import DeepFace
 import os
 import deepfacewiki
+import json
+from rdflib.plugins.sparql import prepareQuery
 
 app = Flask(__name__)
 CORS(app)
@@ -62,6 +65,13 @@ def analyze_emotions(filename):
     imageInfo = deepfacewiki.get_image_deepface_info(filepath)
     return jsonify(imageInfo)
 
+@app.route('/painters-name', methods=['GET'])
+def get_painters_name():
+    with open('painters.json', 'r') as file:
+        painters_data = json.load(file)
+    painter_names = [data['painter'] for data in painters_data.values()]
+    return jsonify(painter_names)
+
 @app.route('/painters')
 def get_painters():
     names,pictures = deepfacewiki.get_names_from_files(UPLOAD_FOLDER)
@@ -71,6 +81,58 @@ def get_painters():
 def get_painter(name):
     summary, lifespan, originalImage = deepfacewiki.get_wikipedia_summary(name)
     return {'summary': summary, 'lifespan': lifespan, 'image': originalImage}
+
+@app.route('/filter', methods=['GET'])
+def filter_query():
+    # Get query parameters
+    race = request.args.get('race', default=None)
+    gender = request.args.get('gender', default=None)
+    emotion = request.args.get('emotion', default=None)
+
+    sparql = SPARQLWrapper("http://localhost:9999/blazegraph/sparql")
+    sparql.method = "GET"
+
+    sparql_query = """
+    PREFIX onto: <http://example.org/ontology/>
+    
+        SELECT DISTINCT ?portrait
+        WHERE {"""
+
+    filters = []
+    if race:
+        sparql_query += f"?portrait onto:hasRace ?race ."
+    if gender:
+        sparql_query += f"?portrait onto:hasGender ?gender .\n"
+    if emotion:
+        sparql_query += f"?portrait onto:hasEmotion ?emotion .\n"
+
+    if race:
+        races = [f"onto:{e.capitalize()}" for e in race.split(',')]
+        races_filter = "(" + ' || '.join([f"?race = {e}" for e in races]) + ")"
+        filters.append(races_filter)
+    if gender:
+        genders = [f"onto:{e.capitalize()}" for e in gender.split(',')]
+        genders_filter = "(" + ' || '.join([f"?gender = {e}" for e in genders]) + ")"
+        filters.append(genders_filter)
+    if emotion:
+        emotions = [f"onto:{e.capitalize()}" for e in emotion.split(',')]
+        emotion_filter = "(" + ' || '.join([f"?emotion = {e}" for e in emotions]) + ")"
+        filters.append(emotion_filter)
+
+    if filters:
+        sparql_query += "FILTER(" + " && ".join(filters) + ")}\n"
+
+    sparql.setQuery(sparql_query)
+    sparql.setReturnFormat(JSON)
+    results = sparql.query().convert()
+    image_filenames = []
+    for result in results["results"]["bindings"]:
+        uri = result["portrait"]["value"]
+        # Extract the filename from the URI
+        filename = os.path.basename(uri) + ".jpg"
+        image_filenames.append(filename)
+
+    return jsonify({'images': image_filenames})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import{ MatMenuModule } from '@angular/material/menu';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { PaintersComponent } from './features/painters/painters.component';
+import { HeaderComponent } from './core/header/header/header.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { PaintersComponent } from './features/painters/painters.component';
     UploadComponent,
     PortraitsComponent,
     Base64Pipe,
-    PaintersComponent
+    PaintersComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

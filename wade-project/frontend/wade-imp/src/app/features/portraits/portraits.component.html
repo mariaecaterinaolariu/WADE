@@ -1,5 +1,3 @@
-<div class="header">
-    <button mat-button routerLink="/portraits"><mat-icon>house</mat-icon>Home</button>
     <div class="search-bar">
         <form class ="example-form">
         <mat-form-field class="example-full-width" appearance="fill">
@@ -12,14 +10,74 @@
         </mat-form-field>
         </form>
     </div>
-    <button mat-button>Login <mat-icon>exit_to_app</mat-icon></button>
-  </div>
-  
 
-<div class ="grid">
-    <div class="grid-item" *ngFor="let image of images">
-        <a [routerLink]="['/painters', image]">
-        <img [src]="'http://127.0.0.1:5000/uploads/' + image" alt="Image">
-        </a>
+<div class="container">
+    
+    <div class="filter-column">
+        <h2>Filter by</h2>
+        <div>
+            <h3>Emotion</h3>
+            <div class="filter-item" *ngFor="let emotion of emotions">
+                <input type="checkbox" [id]="emotion.value" [checked]="emotion.checked" (change)="toggleFilter(emotion)">
+                <label [for]="emotion.value">{{ emotion.label }}</label>
+              </div>
+        </div>
+        <div>
+            <h3>Race</h3>
+            <div class="filter-item" *ngFor="let race of races">
+                <input type="checkbox" [id]="race.value" [checked]="race.checked" (change)="toggleFilter(race)">
+                <label [for]="race.value">{{ race.label }}</label>
+              </div>
+        </div>
+        <div>
+            <h3>Gender</h3>
+            <div class="filter-item" *ngFor="let gender of genders">
+                <input type="checkbox" [id]="gender.value" [checked]="gender.checked" (change)="toggleFilter(gender)">
+                <label [for]="gender.value">{{ gender.label }}</label>
+              </div>
+        </div>
+        <!-- <div>
+            <h3>Age</h3>
+            <div class="filter-item" *ngFor="let filter of filters">
+                <input type="checkbox" [id]="filter.value" [checked]="filter.checked" (change)="toggleFilter(filter)">
+                <label [for]="filter.value">{{ filter.label }}</label>
+              </div>
+        </div>
+        <div>
+            <h3>Painter</h3>
+            <div class="filter-item" *ngFor="let filter of filters">
+                <input type="checkbox" [id]="filter.value" [checked]="filter.checked" (change)="toggleFilter(filter)">
+                <label [for]="filter.value">{{ filter.label }}</label>
+              </div>
+        </div>
+        <div>
+            <h3>Painter's Art Movement</h3>
+            <div class="filter-item" *ngFor="let filter of filters">
+                <input type="checkbox" [id]="filter.value" [checked]="filter.checked" (change)="toggleFilter(filter)">
+                <label [for]="filter.value">{{ filter.label }}</label>
+              </div>
+        </div> -->
+      </div>
+
+  <!-- <div class="image-grid">
+
+
+    <div class ="grid">
+        <div class="grid-item" *ngFor="let image of images">
+            <a [routerLink]="['/painters', image]">
+            <img [src]="'http://127.0.0.1:5000/uploads/' + image" alt="Image">
+            </a>
+        </div>
+    </div>
+    </div> -->
+    <div class="image-grid" vocab="http://schema.org/">
+
+        <div class ="grid">
+            <div class="grid-item" *ngFor="let image of images" typeof="ImageObject">
+                <a [routerLink]="['/painters', image]" property="url">
+                    <img [src]="'http://127.0.0.1:5000/uploads/' + image" alt="Image" property="image">
+                </a>
+            </div>
+        </div>
     </div>
 </div>
