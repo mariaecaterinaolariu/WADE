@@ -50,16 +50,18 @@ export class PaintersComponent implements OnInit {
 
   loadImages() {
     // remake the name of the format of the files:
-    this.namePainter = this.namePainter?.replace('_', '-') ?? null;
+    this.namePainter = this.namePainter?.split('_')[0] ?? null;
+    
     this.http.get('http://127.0.0.1:5000/images').subscribe((data: any) => {
       this.painterImages = data.filter((image: string) => {
-        //console.log(image.startsWith(this.namePainter ?? ''));
+        // console.log(this.namePainter);
+        // console.log(image.startsWith(this.namePainter ?? ''));
         if (image.startsWith(this.namePainter ?? '') === true)
           this.painterImages.push(image);
-        return image;
       });  
     });
     console.log(this.painterImages);
+    return this.painterImages;
     }
 
 }

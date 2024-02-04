@@ -42,3 +42,13 @@ def add_entity_to_collection(collection_name, new_entity):
     if(result.acknowledged):
         print('Acknowledged insertion operation')
     print('Inserted entity with ID:', result.inserted_id)
+
+def get_painter_entity_from_collection(name): #name is of format Achille_Beltrame
+    password = "Mario1234"
+    connString = "mongodb+srv://mario:"+password+"@cluster.mjrpazd.mongodb.net/"
+    client = MongoClient(connString)
+    db = client['wade']
+    collection = db['painters']
+    name = name.lower()
+    painter = collection.find_one({'painter': name})
+    return painter

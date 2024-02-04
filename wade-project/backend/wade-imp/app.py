@@ -93,7 +93,12 @@ def get_painters():
 
 @app.route('/painters/<name>')
 def get_painter(name):
-    summary, lifespan, originalImage = deepfacewiki.get_wikipedia_summary(name)
+    #summary, lifespan, originalImage = deepfacewiki.get_wikipedia_summary(name)
+    painter = mongodb.get_painter_entity_from_collection(name)
+    if painter:
+        summary = painter['summary']
+        lifespan = painter['lifespan']
+        originalImage = painter['originalImage']
     return {'summary': summary, 'lifespan': lifespan, 'image': originalImage}
 
 @app.route('/filter', methods=['GET'])
