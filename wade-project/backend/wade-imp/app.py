@@ -1,7 +1,7 @@
 import time
 import cv2
 from SPARQLWrapper import SPARQLWrapper, GET, JSON, JSONLD
-from flask import Flask, Response, request, send_from_directory, jsonify, send_file
+from flask import Flask, Response, request, send_from_directory, jsonify, send_file, abort
 import base64
 from flask_cors import CORS
 from deepface import DeepFace
@@ -81,9 +81,16 @@ def analyze_emotions(filename):
 
 @app.route('/painters-name', methods=['GET'])
 def get_painters_name():
-    with open('painters.json', 'r') as file:
-        painters_data = json.load(file)
-    painter_names = [data['painter'] for data in painters_data.values()]
+    try:
+        with open('painters.json', 'r') as file:
+            painters_data = json.load(file)
+    except FileNotFoundError:
+        abort(404, "JSON file not found")
+    except json.JSONDecodeError:
+        abort(500, "Invalid JSON format")
+    painter_names = [data['painter'].replace("_", " ") for data in painters_data]
+    painter_names.sort()
+    print(painter_names)
     return jsonify(painter_names)
 
 @app.route('/painters')
@@ -107,6 +114,7 @@ def filter_query():
     race = request.args.get('race', default=None)
     gender = request.args.get('gender', default=None)
     emotion = request.args.get('emotion', default=None)
+    painter = request.args.get('painter', default=None)
 
     sparql = SPARQLWrapper("http://localhost:9999/blazegraph/sparql")
     sparql.method = "GET"
@@ -124,6 +132,8 @@ def filter_query():
         sparql_query += f"?Portrait :hasGender ?gender .\n"
     if emotion:
         sparql_query += f"?Portrait :hasEmotion ?emotion .\n"
+    if painter:
+        sparql_query += f"?Portrait :createdBy ?painter .\n"
 
     if race:
         races = [f'{e.capitalize()}' for e in race.split(',')]
@@ -137,10 +147,14 @@ def filter_query():
         emotions = [f'{e.capitalize()}' for e in emotion.split(',')]
         emotion_filter = "(" + ' || '.join([f'?emotion = "{e}"' for e in emotions]) + ")"
         filters.append(emotion_filter)
+    if painter:
+        painters = [f'{e.replace(" ", "_")}' for e in painter.split(',')]
+        painter_filter = "(" + ' || '.join([f'?painter = :{e}' for e in painters]) + ")"
+        filters.append(painter_filter)
 
     if filters:
         sparql_query += "FILTER(" + " && ".join(filters) + ")}\n"
-
+    print(sparql_query)
     sparql.setQuery(sparql_query)
     sparql.setReturnFormat(JSON)
     results = sparql.query().convert()

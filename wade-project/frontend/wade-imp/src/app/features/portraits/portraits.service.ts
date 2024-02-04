@@ -6,15 +6,17 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PortraitsService {
-
   constructor(private http: HttpClient) { }
 
   getImages(): Observable<any> {
     return this.http.get('http://127.0.0.1:5000/images');
   }
 
+  getPainterName(): Observable<any> {
+    return this.http.get('http://127.0.0.1:5000/painters-name');
+  }
 
-  getFilteredImages(filters: {emotion: string[], gender: string[], race: string[]}): Observable<any> {
+  getFilteredImages(filters: {emotion: string[], gender: string[], race: string[], painter: string[]}): Observable<any> {
     let params = new HttpParams();
 
     if (filters.emotion.length > 0) {
@@ -28,7 +30,11 @@ export class PortraitsService {
     if (filters.race.length > 0) {
       params = params.set('race', filters.race.join(','));
     }
-    console.log(params)
+
+    if (filters.painter.length > 0) {
+      params = params.set('painter', filters.painter.join(','));
+    }
+
     return this.http.get('http://127.0.0.1:5000/filter', { params });
   }
 }

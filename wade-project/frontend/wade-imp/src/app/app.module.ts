@@ -18,6 +18,12 @@ import { PaintersComponent } from './features/painters/painters.component';
 import { HeaderComponent } from './core/header/header/header.component';
 import { HomeComponent } from './core/home/home/home.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatChipsModule} from '@angular/material/chips';
+import { AsyncPipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -38,7 +44,14 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     MatInputModule, 
     MatFormFieldModule,
     MatMenuModule,
-    MatToolbarModule
+    MatToolbarModule,
+    FormsModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    ReactiveFormsModule,
+    AsyncPipe,
   ],
   providers: [
     UploadService,
