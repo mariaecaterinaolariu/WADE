@@ -49,7 +49,6 @@ def get_painter_entity_from_collection(name): #name is of format Achille_Beltram
     client = MongoClient(connString)
     db = client['wade']
     collection = db['painters']
-    name = name.lower()
     painter = collection.find_one({'painter': name})
     return painter
 

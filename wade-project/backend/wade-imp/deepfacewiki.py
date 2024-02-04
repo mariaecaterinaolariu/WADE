@@ -188,5 +188,5 @@ def create_painter_new_entity(filename):
     return new_entity
 
 
-create_json_painters('uploads')
+#create_json_painters('uploads')
 #create_json_portraits('uploads')
