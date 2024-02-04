@@ -1,0 +1,48 @@
+PREFIX : <http://imp-wade.com/ontology/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+:Painter a rdfs:Class ;
+    rdfs:label "Painter" ;
+    rdfs:comment "Creator of art artifacts"@en .
+
+:Portrait a rdfs:Class ;
+    rdfs:label "Portrait" ;
+    rdfs:comment "Art artifact on canvas"@en .
+
+:hasName a rdf:Property ;
+    rdfs:domain :Painter ;
+    rdfs:range xsd:string .
+
+:hasDescription a rdf:Property ;
+    rdfs:domain :Painter ;
+    rdfs:range xsd:string .
+
+:hasLifespan a rdf:Property ;
+    rdfs:domain :Painter ;
+    rdfs:range xsd:string .
+
+:belongsToArtMovement a rdf:Property ;
+    rdfs:domain :Painter ;
+    rdfs:range xsd:string .
+
+:hasGender a rdf:Property ;
+    rdfs:domain :Portrait ;
+    rdfs:range xsd:string .
+
+:hasRace a rdf:Property ;
+    rdfs:domain :Portrait ;
+    rdfs:range xsd:string .
+
+:hasAge a rdf:Property ;
+    rdfs:domain :Portrait ;
+    rdfs:range xsd:integer .
+
+:hasEmotion a rdf:Property ;
+    rdfs:domain :Portrait ;
+    rdfs:range xsd:string .
+
+:createdBy a rdf:Property ;
+    rdfs:domain :Portrait ;
+    rdfs:range :Painter .
