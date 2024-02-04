@@ -18,12 +18,19 @@ import { PaintersComponent } from './features/painters/painters.component';
 import { HeaderComponent } from './core/header/header/header.component';
 import { HomeComponent } from './core/home/home/home.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
+<<<<<<< Updated upstream
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatChipsModule} from '@angular/material/chips';
 import { AsyncPipe } from '@angular/common';
+=======
+import {MatCardModule} from '@angular/material/card';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatListModule} from '@angular/material/list';
+import {MatDividerModule} from '@angular/material/divider';
+>>>>>>> Stashed changes
 
 @NgModule({
   declarations: [
@@ -44,6 +51,7 @@ import { AsyncPipe } from '@angular/common';
     MatInputModule, 
     MatFormFieldModule,
     MatMenuModule,
+<<<<<<< Updated upstream
     MatToolbarModule,
     FormsModule,
     MatAutocompleteModule,
@@ -52,6 +60,13 @@ import { AsyncPipe } from '@angular/common';
     MatChipsModule,
     ReactiveFormsModule,
     AsyncPipe,
+=======
+    MatToolbarModule, 
+    MatCardModule,
+    MatGridListModule,
+    MatListModule,
+    MatDividerModule
+>>>>>>> Stashed changes
   ],
   providers: [
     UploadService,

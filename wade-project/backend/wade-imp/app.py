@@ -57,6 +57,8 @@ def get_images():
 def uploaded_file(filename):
     print(filename)
     image = send_from_directory(UPLOAD_FOLDER, filename.split(" ")[0])
+    # image = mongodb.get_portrait_entity_from_collection(filename)
+    # image = image['image_encoding']
     return image
 
 @app.route('/analyze/facedetect/<filename>')

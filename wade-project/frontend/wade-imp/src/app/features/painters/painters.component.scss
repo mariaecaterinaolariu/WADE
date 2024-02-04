@@ -1,0 +1,74 @@
+/* Add this to your global styles or component-specific styles */
+
+  .painter-container {
+    max-width: 70%; /* Adjust as needed */
+    margin-right: 15%; 
+    margin-left:15%;
+}
+.painter-images-grid {
+    max-width: 70%; /* Adjust as needed */
+    margin-right: 15%; 
+    margin-left:15%;
+}
+.mat-mdc-card-header{
+    max-width: 100%;
+    display:flex;
+}
+mat-card-content {
+    padding:20px;
+}
+mat-card-header {
+    padding:20px;
+}
+.mat-mdc-card-avatar {
+    width:50%;
+    height:50%;
+}
+
+.mat-mdc-card-title{
+    font-size: 40px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+.mat-mdc-card-subtitle{
+    font-size: 20px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+  
+.painter-image-container {
+    max-width: 100%; /* Set maximum width to one-third of the page */
+    padding: 20px; /* Optional: Add some spacing between the image and other content */
+    padding-bottom: 20px;
+}
+    
+.painter-image-container img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+}
+      
+  .grid {
+    flex: 1; /* Take up available space (right side) */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Adjust column width */
+    gap: 10px; /* Adjust the gap between grid items */
+  }
+  
+  .grid-item {
+    text-align: center;
+  }
+
+mat-grid-tile{
+    max-width: 33.33%; /* Set maximum width to one-third of the page */
+    padding: 20px;
+    max-height:33.33%;
+}
+mat-grid-tile img {
+    width: 100%;
+    height: 100%;
+
+}
+
+
+  

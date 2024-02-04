@@ -1,12 +1,43 @@
-<div *ngIf="painter">
-    <img [src]="painter.image" alt="Painter's portrait">
-    <h2>{{ painter.name }}</h2>
-    <p>{{ painter.lifespan }}</p>
-    <p>{{ painter.summary }}</p>
-  </div>
 
-<div class ="grid" *ngIf = "painterImages">
-    <div class="grid-item" *ngFor="let im of painterImages">
-        <img [src]="'http://127.0.0.1:5000/uploads/' + im" alt="Image">
+<!-- <div class = "painter-container" *ngIf = "painter">
+    <div class = "painter-info">
+        <div class = "painter-image-container">
+            <img [src]="painter.image" alt="Painter's portrait">
+        </div>
+        <h2>{{ painter.name }}</h2>
+        <p>{{ painter.lifespan }}</p>
+        <p>{{ painter.summary }}</p>
     </div>
-</div>
+
+
+    <div class ="grid" *ngIf = "painterImages">
+        <div class="grid-item" *ngFor="let im of painterImages">
+            <img [src]="'http://127.0.0.1:5000/uploads/' + im" alt="Image">
+            <p>{{ im }}</p>
+        </div>
+    </div>
+</div> -->
+
+<mat-card class="painter-container" *ngIf="painter">
+    <mat-card-header>
+        <div mat-card-avatar class="painter-image-container">
+            <img mat-card-image [src]="painter.image" alt="Painter's portrait">
+        </div>
+        <mat-card-title>{{ painterName }}</mat-card-title>
+        <mat-card-subtitle>{{ painter.lifespan }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <p>{{ painter.summary }}</p>
+    </mat-card-content>
+</mat-card>
+
+<mat-grid-list class = "painter-images-grid"cols="2" rowHeight="1:1" gutterSize="10px" *ngIf="painterImages">
+    <mat-grid-tile *ngFor="let im of painterImages">
+        <img [src]="'http://127.0.0.1:5000/uploads/' + im" alt="Image">
+        <mat-grid-tile-footer>{{ im }}</mat-grid-tile-footer>
+    </mat-grid-tile>
+</mat-grid-list>
+
+
+
+  
