@@ -94,10 +94,10 @@ def add_portrait_entity_to_graph(new_entity):
     # Create unique identifiers for each instance
     print("entered add_portrait_entity_to_graph")
     portrait = onto[new_entity["filename"].replace(".jpg", "")]
-    emotion = onto(new_entity["emotion"].capitalize())
-    age = onto(str(new_entity["age"]))
-    race = onto(new_entity["race"].replace(" ", "_").capitalize())
-    painter_name = onto(new_entity["painter"])
+    emotion = onto[new_entity["emotion"].capitalize()]
+    age = onto[str(new_entity["age"])]
+    race = onto[new_entity["race"].replace(" ", "_").capitalize()]
+    painter_name = onto[new_entity["painter"]]
     print('added portrait data to the ontology')
     # Add portrait data to the ontology
     g.add((portrait, RDF.type, onto.Portrait))
