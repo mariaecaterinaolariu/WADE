@@ -36,40 +36,8 @@
                 <label [for]="gender.value">{{ gender.label }}</label>
               </div>
         </div>
-        <!-- <div>
-            <h3>Age</h3>
-            <div class="filter-item" *ngFor="let filter of filters">
-                <input type="checkbox" [id]="filter.value" [checked]="filter.checked" (change)="toggleFilter(filter)">
-                <label [for]="filter.value">{{ filter.label }}</label>
-              </div>
-        </div>
-        <div>
-            <h3>Painter</h3>
-            <div class="filter-item" *ngFor="let filter of filters">
-                <input type="checkbox" [id]="filter.value" [checked]="filter.checked" (change)="toggleFilter(filter)">
-                <label [for]="filter.value">{{ filter.label }}</label>
-              </div>
-        </div>
-        <div>
-            <h3>Painter's Art Movement</h3>
-            <div class="filter-item" *ngFor="let filter of filters">
-                <input type="checkbox" [id]="filter.value" [checked]="filter.checked" (change)="toggleFilter(filter)">
-                <label [for]="filter.value">{{ filter.label }}</label>
-              </div>
-        </div> -->
-      </div>
-
-  <!-- <div class="image-grid">
-
-
-    <div class ="grid">
-        <div class="grid-item" *ngFor="let image of images">
-            <a [routerLink]="['/painters', image]">
-            <img [src]="'http://127.0.0.1:5000/uploads/' + image" alt="Image">
-            </a>
-        </div>
     </div>
-    </div> -->
+
     <div class="image-grid" vocab="http://schema.org/">
 
         <div class ="grid">

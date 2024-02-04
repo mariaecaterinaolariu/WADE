@@ -1,5 +1,5 @@
 import cv2
-from SPARQLWrapper import SPARQLWrapper, GET, JSON
+from SPARQLWrapper import SPARQLWrapper, GET, JSON, JSONLD
 from flask import Flask, Response, request, send_from_directory, jsonify, send_file
 import base64
 from flask_cors import CORS
@@ -93,30 +93,30 @@ def filter_query():
     sparql.method = "GET"
 
     sparql_query = """
-    PREFIX onto: <http://example.org/ontology/>
+    PREFIX : <http://imp-wade.com/ontology/>
     
-        SELECT DISTINCT ?portrait
+        SELECT DISTINCT ?Portrait
         WHERE {"""
 
     filters = []
     if race:
-        sparql_query += f"?portrait onto:hasRace ?race ."
+        sparql_query += f"?Portrait :hasRace ?race ."
     if gender:
-        sparql_query += f"?portrait onto:hasGender ?gender .\n"
+        sparql_query += f"?Portrait :hasGender ?gender .\n"
     if emotion:
-        sparql_query += f"?portrait onto:hasEmotion ?emotion .\n"
+        sparql_query += f"?Portrait :hasEmotion ?emotion .\n"
 
     if race:
-        races = [f"onto:{e.capitalize()}" for e in race.split(',')]
-        races_filter = "(" + ' || '.join([f"?race = {e}" for e in races]) + ")"
+        races = [f'{e.capitalize()}' for e in race.split(',')]
+        races_filter = "(" + ' || '.join([f'?race = "{e}"' for e in races]) + ")"
         filters.append(races_filter)
     if gender:
-        genders = [f"onto:{e.capitalize()}" for e in gender.split(',')]
-        genders_filter = "(" + ' || '.join([f"?gender = {e}" for e in genders]) + ")"
+        genders = [f'{e.capitalize()}' for e in gender.split(',')]
+        genders_filter = "(" + ' || '.join([f'?gender = "{e}"' for e in genders]) + ")"
         filters.append(genders_filter)
     if emotion:
-        emotions = [f"onto:{e.capitalize()}" for e in emotion.split(',')]
-        emotion_filter = "(" + ' || '.join([f"?emotion = {e}" for e in emotions]) + ")"
+        emotions = [f'{e.capitalize()}' for e in emotion.split(',')]
+        emotion_filter = "(" + ' || '.join([f'?emotion = "{e}"' for e in emotions]) + ")"
         filters.append(emotion_filter)
 
     if filters:
@@ -127,7 +127,8 @@ def filter_query():
     results = sparql.query().convert()
     image_filenames = []
     for result in results["results"]["bindings"]:
-        uri = result["portrait"]["value"]
+        print(result)
+        uri = result["Portrait"]["value"]
         # Extract the filename from the URI
         filename = os.path.basename(uri) + ".jpg"
         image_filenames.append(filename)

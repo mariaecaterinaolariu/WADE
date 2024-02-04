@@ -42,7 +42,7 @@ export class PortraitsComponent {
 
   races: Filter[] = [
     { label: 'White', value: 'White', checked: false },
-    { label: 'Latino hispanic', value: 'latino hispanic', checked: false },
+    { label: 'Latino hispanic', value: 'LatinoHispanic', checked: false },
     { label: 'Asian', value: 'asian', checked: false },
     { label: 'Black', value: 'black', checked: false },
     { label: 'Indian', value: 'indian', checked: false },
@@ -70,6 +70,9 @@ export class PortraitsComponent {
           console.error('Error fetching images:', error);
         }
       );
+    }
+    else{
+      this.loadImages();
     }
   }
 
@@ -107,17 +110,14 @@ export class PortraitsComponent {
           width: img.width,
           height: img.height
         });
-        // get the maximum width of the images and the minimum width of the images
         if (img.width > maximumWidth) {
           maximumWidth = img.width;
         }
-        // get the minimum width of the images
         if (img.width < minimumWidth) {
           minimumWidth = img.width;
         }
       };
     });
-    // Now you can sort the imageDetails array based on their width
     this.imageDetails.sort((a, b) => a.width - b.width);
   }
 }

@@ -36,6 +36,7 @@ def get_wikipedia_summary(title):
     # If the request was successful, return the summary and lifespan
     if response.status_code == 200:
         summary = response.json()["extract"]
+        print(response.json()["name"])
         description = response.json()["description"]
         originalImage = response.json()["originalimage"]["source"]
         # Try to find a lifespan in the summary
