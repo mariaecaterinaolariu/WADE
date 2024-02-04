@@ -1,15 +1,26 @@
-    <div class="search-bar">
-        <form class ="example-form">
-        <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Search</mat-label>
-            <mat-icon matPrefix>search</mat-icon>
-            <input type="text"
-                placeholder="Search for an artist, emotion, age ..."
-                matInput
-            />
-        </mat-form-field>
-        </form>
-    </div>
+
+  <form>
+  <mat-form-field class="example-chip-list">
+    <mat-label>Search painter</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Search painter...">
+      <mat-chip-row *ngFor="let painter of painters" (removed)="remove(painter)">
+        {{ painter }}
+        <button matChipRemove [attr.aria-label]="'remove ' + painter">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    </mat-chip-grid>
+    <input placeholder="New painter..." #painterInput
+    [formControl]="formCtrl"
+      [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+      (matChipInputTokenEnd)="add($event)" />
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let painter of filteredPainters | async" [value]="painter">
+        {{ painter }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
 
 <div class="container">
     
@@ -41,11 +52,16 @@
     <div class="image-grid" vocab="http://schema.org/">
 
         <div class ="grid">
-            <div class="grid-item" *ngFor="let image of images" typeof="ImageObject">
+          <span *ngIf="images.length > 0">
+              <div class="grid-item" *ngFor="let image of images" typeof="ImageObject">
                 <a [routerLink]="['/painters', image]" property="url">
                     <img [src]="'http://127.0.0.1:5000/uploads/' + image" alt="Image" property="image">
                 </a>
             </div>
+          </span>
+          <span *ngIf="images.length === 0">
+            <div>Sorry! No paintings were found for this selection</div>
+        </span>
         </div>
     </div>
 </div>
