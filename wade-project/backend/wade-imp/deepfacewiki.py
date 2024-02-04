@@ -36,9 +36,16 @@ def get_wikipedia_summary(title):
     # If the request was successful, return the summary and lifespan
     if response.status_code == 200:
         summary = response.json()["extract"]
-        print(response.json()["name"])
-        description = response.json()["description"]
-        originalImage = response.json()["originalimage"]["source"]
+        print(response.json()["title"])
+        if (response.json().get("description")):
+            description = response.json()["description"]
+        else:
+            description = "No description available."
+
+        if(response.json().get("originalimage")):
+            originalImage = response.json()["originalimage"]["source"]
+        else:
+            originalImage = None
         # Try to find a lifespan in the summary
         lifespan_match = re.search(r'\((\d{4})\s*–\s*(\d{4})\)', description)
         if not lifespan_match:
@@ -134,7 +141,8 @@ def create_json_painters(directory):
     for filename in os.listdir(directory):
         painter = filename.split('_')[0]
         painter = painter.replace('-', '_')
-        painters.add(painter)
+        painter_capitalized = '_'.join([name.capitalize() for name in painter.split('_')])
+        painters.add(painter_capitalized)
     painters = list(painters)
     for painter in painters:
         summary, lifespan, originalImage = get_wikipedia_summary(painter)
@@ -168,7 +176,8 @@ def create_portrait_new_entity(filepath,filename):
 def create_painter_new_entity(filename):
     painter = filename.split('_')[0]
     painter = painter.replace('-', '_')
-    summary, lifespan, originalImage = get_wikipedia_summary(painter)
+    painter_capitalized = '_'.join([name.capitalize() for name in painter.split('_')])
+    summary, lifespan, originalImage = get_wikipedia_summary(painter_capitalized)
     new_entity = {
         'painter': painter,
         'summary': summary,
@@ -179,5 +188,5 @@ def create_painter_new_entity(filename):
     return new_entity
 
 
-#create_json_painters('uploads')
+create_json_painters('uploads')
 #create_json_portraits('uploads')
