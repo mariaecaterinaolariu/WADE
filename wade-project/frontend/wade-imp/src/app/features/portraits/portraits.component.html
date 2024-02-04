@@ -1,5 +1,5 @@
 
-  <form>
+  <form class="search-bar">
   <mat-form-field class="example-chip-list">
     <mat-label>Search painter</mat-label>
     <mat-chip-grid #chipGrid aria-label="Search painter...">
@@ -49,19 +49,37 @@
         </div>
     </div>
 
-    <div class="image-grid" vocab="http://schema.org/">
+    <div class="image-grid">
+        <div class ="grid"  *ngIf="images.length > 0">
+                <div class="grid-item" *ngFor="let image of images">
+                  <a [routerLink]="['/painters', image]">
+                      <img [src]="'http://127.0.0.1:5000/uploads/' + image" alt="Image">
+                  </a>
+              </div>
 
-        <div class ="grid">
-          <span *ngIf="images.length > 0">
-              <div class="grid-item" *ngFor="let image of images" typeof="ImageObject">
-                <a [routerLink]="['/painters', image]" property="url">
-                    <img [src]="'http://127.0.0.1:5000/uploads/' + image" alt="Image" property="image">
-                </a>
-            </div>
-          </span>
-          <span *ngIf="images.length === 0">
-            <div>Sorry! No paintings were found for this selection</div>
-        </span>
+        </div>
+        <div *ngIf="images.length === 0">
+          <div>Sorry! No paintings were found for this selection</div>
         </div>
     </div>
+
+    <!-- <div class="image-grid" xmlns:imp-wade="http://imp-wade.com/ontology/">
+
+      <div class="grid">
+          <span *ngIf="images.length > 0">
+              <div class="grid-item" *ngFor="let image of images" typeof="imp-wade:Portrait">
+                  <a [routerLink]="['/painters', image]">
+                      <img [src]="'http://127.0.0.1:5000/uploads/' + image" alt="Image">
+                  </a>
+                  <meta property="imp-wade:hasGender">
+                  <meta property="imp-wade:hasRace">
+                  <meta property="imp-wade:hasAge">
+                  <meta property="imp-wade:hasEmotion">
+              </div>
+          </span>
+          <span *ngIf="images.length === 0">
+              <div>Sorry! No paintings were found for this selection</div>
+          </span>
+      </div>
+  </div> -->
 </div>

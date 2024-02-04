@@ -92,55 +92,61 @@ g.add((onto.hasDeathDate, RDF.type, OWL.DatatypeProperty))
 
 def add_portrait_entity_to_graph(new_entity):
     # Create unique identifiers for each instance
-    print("entered add_portrait_entity_to_graph")
-    portrait = onto[new_entity["filename"].replace(".jpg", "")]
-    emotion = onto[new_entity["emotion"].capitalize()]
-    age = onto[str(new_entity["age"])]
-    race = onto[new_entity["race"].replace(" ", "_").capitalize()]
-    painter_name = onto[new_entity["painter"]]
-    print('added portrait data to the ontology')
-    # Add portrait data to the ontology
-    g.add((portrait, RDF.type, onto.Portrait))
-    g.add((portrait, onto.hasEmotion, emotion))
-    g.add((portrait, onto.hasAge, age))
-    g.add((portrait, onto.hasRace, race))
-    g.add((portrait, onto.paintedBy, painter_name))
+    print(new_entity)
+    filename = new_entity["filename"].replace(".jpg", "")
+    emotion = new_entity["emotion"].capitalize()
+    age = int(new_entity["age"])
+    gender = new_entity["gender"]
+    race = new_entity["race"].replace(" ", "_").capitalize()
+    painter = new_entity["painter"].replace("-", "_")
 
-    # Serialize the ontology
-    serialized_ontology = g.serialize()
-    print(serialized_ontology)
-    # Update the Blazegraph database
     sparql = SPARQLWrapper("http://localhost:9999/blazegraph/sparql")
-    sparql.method = POST
-    sparql.setRequestMethod(POSTDIRECTLY)
-    #sparql.setQuery(serialized_ontology)
-    sparql.setQuery("""
-    INSERT DATA {
-        %s
-    }
-    """ % serialized_ontology)
+    sparql.method = "POST"
+
+    sparql_query = f"""
+        PREFIX : <http://imp-wade.com/ontology/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+        INSERT DATA {{
+          :{filename} a :Painting ;
+              :hasEmotion "{emotion}" ;
+              :hasAge {age} ;
+              :hasRace "{race}" ;
+              :hasGender "{gender}" ;
+              :createdBy :{painter} .
+              }}
+              """
+
+    print(sparql_query)
+    sparql.setQuery(sparql_query)
     sparql.query()
     print("updated the Blazegraph database")
 
+
 def add_painter_entity_to_graph(new_entity):
     # Create unique identifiers for each instance
-    painter = onto[new_entity["painter"]]
-    description = Literal(new_entity["summary"])
-    birth_date = Literal(new_entity["lifespan"][0], datatype=schema.date)
-    death_date = Literal(new_entity["lifespan"][1], datatype=schema.date)
+    painter = new_entity["painter"]
+    summary = new_entity["summary"]
+    lifespan = new_entity["lifespan"]
 
-    #Add painter data to the ontology
-    g.add((painter, onto.hasDescription, description))
-    g.add((painter, onto.hasBirthDate, birth_date))
-    g.add((painter, onto.hasDeathDate, death_date))
-    print('added painter data to the ontology')
-    # Serialize the ontology
-    serialized_ontology = g.serialize(format="xml")
-
-    # Update the Blazegraph database
     sparql = SPARQLWrapper("http://localhost:9999/blazegraph/sparql")
-    sparql.method = POST
-    sparql.setRequestMethod(POSTDIRECTLY)
-    sparql.setQuery(serialized_ontology)
+    sparql.method = "POST"
+
+    sparql_query = f"""
+        PREFIX : <http://imp-wade.com/ontology/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+        INSERT DATA {{
+          :{painter} a :Painter ;
+              :hasName "{painter}" ;
+              :hasDescription "{summary}" ;
+              :hasLifespan "{lifespan}" .
+              }}
+              """
+
+    print(sparql_query)
+    sparql.setQuery(sparql_query)
     sparql.query()
     print("updated the Blazegraph database")

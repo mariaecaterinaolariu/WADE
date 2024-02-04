@@ -34,9 +34,11 @@ def upload_file():
             # Create new entity for the portrait and the painter and add to database
             filepath = UPLOAD_FOLDER + "/" + file.filename.split(" ")[0]
             portrait_entity = deepfacewiki.create_portrait_new_entity(filepath, file.filename)
+            print(portrait_entity)
             mongodb.add_entity_to_collection('portraits', portrait_entity)
             time.sleep(1)
             painter_entity = deepfacewiki.create_painter_new_entity(file.filename)
+            print(painter_entity)
             mongodb.add_entity_to_collection('painters', painter_entity)
             time.sleep(1)
             #Add to stupid blazegraph
