@@ -6,6 +6,8 @@ import base64
 from flask_cors import CORS
 from deepface import DeepFace
 import os
+
+from pymongo import MongoClient
 import deepfacewiki
 import mongodb
 import ontology_blazegraph_poc
@@ -107,7 +109,13 @@ def get_painters():
 @app.route('/painters/<name>')
 def get_painter(name):
     #summary, lifespan, originalImage = deepfacewiki.get_wikipedia_summary(name)
-    painter = mongodb.get_painter_entity_from_collection(name)
+    #painter = mongodb.get_painter_entity_from_collection(name)
+    password = "Mario1234"
+    connString = "mongodb+srv://mario:"+password+"@cluster.mjrpazd.mongodb.net/"
+    client = MongoClient(connString)
+    db = client['wade']
+    collection = db['painters']
+    painter = collection.find_one({'painter': name})
     if painter:
         summary = painter['summary']
         lifespan = painter['lifespan']
