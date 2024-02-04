@@ -67,3 +67,4 @@ jobs:
           app-name: 'imp-wade-backend-051'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_46FC8FAD636A468E95DBF0A360372A5E }}
+          app_location: 'wade-project/backend/wade-imp'
