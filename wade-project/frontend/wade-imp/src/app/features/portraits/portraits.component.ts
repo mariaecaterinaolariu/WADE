@@ -59,8 +59,8 @@ export class PortraitsComponent {
   ];
 
   genders: Filter[] = [
-    { label: 'Male', value: 'Male', checked: false },
-    { label: 'Female', value: 'Female', checked: false }
+    { label: 'Male', value: 'Man', checked: false },
+    { label: 'Female', value: 'Woman', checked: false }
   ];
 
   races: Filter[] = [

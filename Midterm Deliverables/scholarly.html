@@ -18,6 +18,7 @@
                 <li><a href="#architecture">Architecture</a></li>
                 <li><a href="#external-data-sources">External Data Sources</a></li>
                 <li><a href="#data-structures">Data Structures / Models</a></li>
+                <li><a href="#ontology">Data representation</a></li>
                 <li><a href="#data-flow">Data Flow</a></li>
                 <li><a href="#user-guide">Use Cases</a></li>
                 <li><a href="#linked-data-principles">Conformance to Linked Data Principles</a></li>
@@ -59,6 +60,38 @@
             </p>
             <p>In order to manage the data within our project, we have made use of the following main models which are aligned to the project's needs</p>
             <img src="../images/main_models.png" alt="Main Models">
+        </section>
+        <section id="ontology">
+            <h2>Ontology</h2>
+            <p>
+                We build an ontology in RDF (Resource Description Framework) format with RDF Schema (RDFS) constructs, that defines classes and properties related to painters and portraits. 
+                First, we generated a schematic using an online tool for a better perspective.
+            </p>
+            <img src="../images/ontology-graph.png" alt="ontology-graph" width="850" height="550">
+            <p>The created ontology models information related to painters and portraits in the field of art. It defines classes to represent the painter and portrait entities, along with properties to describe various aspects of these entities, such as names, descriptions, lifetimes, genders, races, ages, emotions, and relationships between them.
+            </p>
+                <p>Ontology classes
+                <ul>
+                <li>
+                Painter: Represents individuals who create artefacts. This class encapsulates the attributes and relationships associated with painters.
+
+                </li>
+                <li>
+                    Portrait: Represents a certain type of art artifact. The portraits have attributes and relationships that were extracted using DeepFace and are related to the person in the portrait (ex: gender, race, age)
+                </li>
+                </ul>
+                
+            </p>
+
+            <img src="../images/ontology-schema.png" alt="ontology-schema" width="850" height="450">
+
+            <p>
+                The ontology described above serves as the basis for structuring and organizing the dataset into a BlazeGraph database. Each entity and its attributes are represented according to the classes and properties defined in the ontology.
+                These statements adhere to the schema of the ontology, with subjects, predicates, and objects corresponding to specific entities, properties, and values as defined in the ontology.
+            </p><p>
+                    Using the capabilities of BlazeGraph, this structured dataset can be efficiently stored, queried and manipulated by our api.
+                </p>
+                <img src="../images/blazegraph.png" alt="blazegraph" width="850" height="350">
         </section>
         <section id="data-flow">
             <h2>Data Flow</h2>
