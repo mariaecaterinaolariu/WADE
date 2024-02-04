@@ -152,7 +152,7 @@ def filter_query():
         emotion_filter = "(" + ' || '.join([f'?emotion = "{e}"' for e in emotions]) + ")"
         filters.append(emotion_filter)
     if painter:
-        painters = [f'{e.replace(" ", "_")}' for e in painter.split(',')]
+        painters = [f'{e.lower().replace(" ", "_")}' for e in painter.split(',')]
         painter_filter = "(" + ' || '.join([f'?painter = :{e}' for e in painters]) + ")"
         filters.append(painter_filter)
 

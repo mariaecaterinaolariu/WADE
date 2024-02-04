@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './core/home/home/home.component';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
+  {path: '', component: PortraitsComponent},
   { path: 'upload', component: UploadComponent },
   { path: 'portraits', component: PortraitsComponent },
   {path: 'painters/:name', component: PaintersComponent}
