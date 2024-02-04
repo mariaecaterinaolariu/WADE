@@ -30,11 +30,13 @@ def upload_file():
 
     if file:
         file.save(os.path.join(UPLOAD_FOLDER, file.filename))
+        time.sleep(2)
         if os.path.isfile(os.path.join(UPLOAD_FOLDER, file.filename)):
             # Create new entity for the portrait and the painter and add to database
             filepath = UPLOAD_FOLDER + "/" + file.filename.split(" ")[0]
             portrait_entity = deepfacewiki.create_portrait_new_entity(filepath, file.filename)
             print(portrait_entity)
+            time.sleep(2)
             mongodb.add_entity_to_collection('portraits', portrait_entity)
             time.sleep(1)
             painter_entity = deepfacewiki.create_painter_new_entity(file.filename)
