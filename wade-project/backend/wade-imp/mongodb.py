@@ -52,3 +52,13 @@ def get_painter_entity_from_collection(name): #name is of format Achille_Beltram
     name = name.lower()
     painter = collection.find_one({'painter': name})
     return painter
+
+def get_portrait_entity_from_collection(name): #name is of format Achille_Beltrame_0001.jpg
+    password = "Mario1234"
+    connString = "mongodb+srv://mario:"+password+"@cluster.mjrpazd.mongodb.net/"
+    client = MongoClient(connString)
+    db = client['wade']
+    collection = db['portraits']
+    portrait = collection.find_one({'filename': name})
+
+    return portrait
