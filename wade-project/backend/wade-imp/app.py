@@ -1,3 +1,4 @@
+import time
 import cv2
 from SPARQLWrapper import SPARQLWrapper, GET, JSON, JSONLD
 from flask import Flask, Response, request, send_from_directory, jsonify, send_file
@@ -6,6 +7,8 @@ from flask_cors import CORS
 from deepface import DeepFace
 import os
 import deepfacewiki
+import mongodb
+import ontology_blazegraph_poc
 import json
 from rdflib.plugins.sparql import prepareQuery
 
@@ -27,6 +30,17 @@ def upload_file():
 
     if file:
         file.save(os.path.join(UPLOAD_FOLDER, file.filename))
+        if os.path.isfile(os.path.join(UPLOAD_FOLDER, file.filename)):
+            # Create new entity for the portrait and the painter and add to database
+            filepath = UPLOAD_FOLDER + "/" + file.filename.split(" ")[0]
+            portrait_entity = deepfacewiki.create_portrait_new_entity(filepath, file.filename)
+            mongodb.add_entity_to_collection('portraits', portrait_entity)
+            time.sleep(1)
+            painter_entity = deepfacewiki.create_painter_new_entity(file.filename)
+            mongodb.add_entity_to_collection('painters', painter_entity)
+            time.sleep(1)
+            #Add to stupid blazegraph
+            ontology_blazegraph_poc.add_portrait_entity_to_graph(portrait_entity)
         return jsonify({'message': 'File uploaded successfully'}), 200
 
 @app.route('/images')

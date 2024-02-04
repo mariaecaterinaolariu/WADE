@@ -21,12 +21,24 @@ import json
 # py -m pip install -U httpcore httpx
 # Deployed database in cloud using MongoDB Atlas
 from pymongo import MongoClient
-password = str(input("Enter password: "))
-connString = "mongodb+srv://mario:"+password+"@cluster.mjrpazd.mongodb.net/"
-client = MongoClient(connString)
-db = client['wade']
-collection = db['painters']
-for doc in collection.find():
-    if 'painter' in doc:
-        print(doc['painter'])
+#password = str(input("Enter password: "))
+#connString = "mongodb+srv://mario:"+password+"@cluster.mjrpazd.mongodb.net/"
+#client = MongoClient(connString)
+# db = client['wade']
+# collection_name = 'painters'
+# collection = db[collection_name]
+# for doc in collection.find():
+#     if 'painter' in doc:
+#         print(doc['painter'])
 
+
+def add_entity_to_collection(collection_name, new_entity):
+    password = "Mario1234"
+    connString = "mongodb+srv://mario:"+password+"@cluster.mjrpazd.mongodb.net/"
+    client = MongoClient(connString)
+    db = client['wade']
+    collection = db[collection_name]
+    result = collection.insert_one(new_entity)
+    if(result.acknowledged):
+        print('Acknowledged insertion operation')
+    print('Inserted entity with ID:', result.inserted_id)

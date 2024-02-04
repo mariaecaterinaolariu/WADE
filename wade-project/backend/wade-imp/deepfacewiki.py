@@ -116,6 +116,7 @@ def create_json_portraits(directory):
                 'emotion': deepface_info[0]['dominant_emotion'],
                 'age': deepface_info[0]['age'],
                 'race': deepface_info[0]['dominant_race'],
+                'gender':deepface_info[0]['dominant_gender'],
                 'image_encoding': image_info,
                 'face_positions': deepface_info[0]['region'],
                 'painter': filename.split('_')[0],
@@ -146,6 +147,37 @@ def create_json_painters(directory):
     
     with open('painters.json', 'w') as outfile:
         json.dump(data, outfile)
+
+def create_portrait_new_entity(filepath,filename):
+    image_info = encode_image(filepath)
+    path = filepath
+    deepface_info = get_image_deepface_info(path)
+    new_entity = {
+        'filename': filename,
+        'emotion': deepface_info[0]['dominant_emotion'],
+        'age': deepface_info[0]['age'],
+        'race': deepface_info[0]['dominant_race'],
+        'gender':deepface_info[0]['dominant_gender'],
+        'image_encoding': image_info,
+        'face_positions': deepface_info[0]['region'],
+        'painter': filename.split('_')[0],
+        'deepface_info': deepface_info}
+    print("created new portrait entity")
+    return new_entity
+
+def create_painter_new_entity(filename):
+    painter = filename.split('_')[0]
+    painter = painter.replace('-', '_')
+    summary, lifespan, originalImage = get_wikipedia_summary(painter)
+    new_entity = {
+        'painter': painter,
+        'summary': summary,
+        'lifespan': lifespan,
+        'originalImage': originalImage
+    }
+    print("created new painter entity")
+    return new_entity
+
 
 #create_json_painters('uploads')
 #create_json_portraits('uploads')
