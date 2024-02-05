@@ -35,6 +35,7 @@
                 <li><a href="#api">Api</a></li>
                 <li><a href="#use-cases">Use Cases</a></li>
                 <li><a href="#user-guide">User guide</a></li>
+                <li><a href="#cloud-deploy">Cloud deploy</a></li>
                 <li><a href="#data-vizualization">Data vizualization</a></li>
                 <li><a href="#linked-data-principles">Conformance to Linked Data Principles</a></li>
                 <li><a href="#rdf-model">Conformation to RDF model</a></li>
@@ -203,6 +204,13 @@
             <img src="../images/painter-page.png" alt="painter" width="800"/><br>
             <p>The image upload functionality, available in <i>Upload</i> is clicked, is a feature designed to allow users to upload images, which will later be visible on the "Pictures" page of the application. Upon upload, the image is processed by external APIs and saved to both MongoDB and BlazeGraph, ensuring efficient storage and retrieval.</p>
             <img src="../images/upload-page.png" alt="upload" width="800" /><br>
+            <p>A demo of the application can be viewed by accessing: <a href="https://youtu.be/3-GllXJk0z0" target="_blank">demo link</a></p>
+        </section>
+        <section id="cloud-deploy">
+            <h2>Cloud deploy</h2>
+            <p>To deploy our application in the cloud, we chose to use Microsoft Azure. Initially, we tried an approach that uses Azure App Service with Docker Containers.</p>
+            <p>Azure App Service has support for running Docker containers, so we tried deploying our containerized microservices directly to Azure App Service. Due to some problems encountered along the way, we chose to deploy directly from Github to Azure App Service.</p>
+            <p>We managed to do this and here are some links that can be accessed: <a href="https://imp-wade-backend-051.azurewebsites.net" target="_blank">server</a> and <a href="https://mango-sky-02f93c003.4.azurestaticapps.net" target="_blank">client</a></p>
         </section>
         <section id="data-vizualization">
             <h2>Visualizations of Data</h2>
