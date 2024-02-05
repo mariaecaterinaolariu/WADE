@@ -3,13 +3,25 @@
 <head>
     <title>Technical Report: ImP Project Solution</title>
     <meta name="description" content="A technical report on a web application that provides detailed analysis of portraits from 1900 - 1950 using DeepFace.">
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
+    <link rel="stylesheet" type="text/css" href="scholarly.min.css">
 </head>
 <body>
     <header>
-        <h1>Technical Report: ImP Project Solution</h1>
+        <h1>Technical Report:<br> ImP Project Solution</h1>
         <p>A browsing image system for portraits from 1850 - 1950 using DeepFace and Wikipedia API.</p>
     </header>
+    <div role="contentinfo">
+        <dl>
+            <dt>Authors</dt>
+            <dd>
+                Maria-Ecaterina Olariu
+                &amp;
+                Ioana-Malina Pinzariu
+
+            </dd>
+        </dl>
+    </div>
     <main>
         <div id="table-of-contents">
             <h2>Table of Contents</h2>
@@ -20,7 +32,10 @@
                 <li><a href="#data-structures">Data Structures / Models</a></li>
                 <li><a href="#ontology">Data representation</a></li>
                 <li><a href="#data-flow">Data Flow</a></li>
-                <li><a href="#user-guide">Use Cases</a></li>
+                <li><a href="#api">Api</a></li>
+                <li><a href="#use-cases">Use Cases</a></li>
+                <li><a href="#user-guide">User guide</a></li>
+                <li><a href="#data-vizualization">Data vizualization</a></li>
                 <li><a href="#linked-data-principles">Conformance to Linked Data Principles</a></li>
                 <li><a href="#rdf-model">Conformation to RDF model</a></li>
                 <li><a href="#preliminary-considerations">Preliminary Considerations</a></li>
@@ -34,7 +49,7 @@
         </section>
         <section id="architecture">
             <h2>Architecture</h2>
-            <p>The application consists of multiple components including a frontend part in Angular, an ASP.NET Core server and Flask. The project includes a user service that manages the authentication, as well as data management services: painting and painters.
+            <p>The application consists of multiple components including a frontend part in Angular, and a Flask server. The project includes a user service that manages the authentication, as well as data management services: painting and painters.
                 This modules are designed as microservices and all the information is stored in MongoDB Atlas.
             </p>
             <h3>General</h3>
@@ -51,11 +66,12 @@
         </section>
         <section id="data-structures">
             <h2>Data Structures / Models</h2>
-            <p>Structure of the database is made of two main entities: Painters and Paintings. Another entity would be the user that will require some form of authentication in order to get the privilege of uploading portraits and contributing to the dataset.</p>
+            <p>Structure of the database is made of two main entities: Painters and Paintings.</p>
 
-            <p>The main format of our data is JSON. This is the reason why we chose MongoDB as our database system. As previously stated, our main concern is the two main entities: Painters and Paintings. Each will become a collection of data:</p>
-            <p>Each document in the <b>Paintings collection</b> will represent a single painting. The document will contain fields for: the image itself, the name of the painter, and from DeepFace detection: the age, gender, race, and emotion. Following the JSON LD encoding specifications, we will also include “@context” and “@type” for each painting stating the context of our data - schema.org - and VisualArtwork for defining the type of data, respectively.</p>
-            <p>The <b>Painters collection</b> contains the representations of each painter. The document includes the following fields: the painter's name, the information from the Wikipedia API (such as the art current, years they were alive, and a short description). For “@context”, we will include schema.org and follow the vocabulary guidelines presented for description, art current, birth and death date. For “@type”, since we are referring to a person, it will remain Person.</p>
+            <p>The main format of our data is JSON. This is the reason why we chose MongoDB as our database system. Mongo is also a good choice from a security point of view, because we have the possibility to set a list of ips that have access to the database</p>
+            <p>As previously stated, our main concern is the two main entities: Painters and Paintings. Each will become a collection of data:</p>
+            <p>Each document in the <b>Paintings collection</b> will represent a single painting. The document will contain fields for: the image itself, the name of the painter, and from DeepFace detection: the age, gender, race, and emotion.</p>
+            <p>The <b>Painters collection</b> contains the representations of each painter. The document includes the following fields: the painter's name, the information from the Wikipedia API (such as the art current, years they were alive, and a short description). </p>
             <p>The Paintings and Painters data models are at the base of our application. In order to expose more functionalities and data about our paintings, we will include some Correlation Graphs for each painter to document their artistic choices. The correlations will be between the ages and emotions of the people portrayed and the gender and emotions. We are hopeful to find interesting associations or preferences of the painters. 
             </p>
             <p>In order to manage the data within our project, we have made use of the following main models which are aligned to the project's needs</p>
@@ -72,13 +88,12 @@
             </p>
                 <p>Ontology classes
                 <ul>
-                <li>
-                Painter: Represents individuals who create artefacts. This class encapsulates the attributes and relationships associated with painters.
-
-                </li>
-                <li>
-                    Portrait: Represents a certain type of art artifact. The portraits have attributes and relationships that were extracted using DeepFace and are related to the person in the portrait (ex: gender, race, age)
-                </li>
+                    <li>
+                        Painter: Represents individuals who create artefacts. This class encapsulates the attributes and relationships associated with painters.
+                    </li>
+                    <li>
+                        Portrait: Represents a certain type of art artifact. The portraits have attributes and relationships that were extracted using DeepFace and are related to the person in the portrait (ex: gender, race, age)
+                    </li>
                 </ul>
                 
             </p>
@@ -95,46 +110,106 @@
         </section>
         <section id="data-flow">
             <h2>Data Flow</h2>
-            <p>In this section we will describe how our data is being processed from start to finish. The journey of our data starts from the Kaggle dataset. The dataset only includes the images with a filename of pattern: “artist_name_number.jpg”. From the filename we will extract the name of the painter for each portrait. Since this is the only data about each painting that we have, so far, we will enrich it by using DeepFace analyze feature to add age, gender, race and emotion of each of the people in the portrait. The object returned by this library call also includes the position of the face, which we do not believe to be relevant for our application, only for the painter-paintings selection for sizing down our database later on. All this data, plus “@context” and “@type” VisualArtwork will constitute the JSON LD files for our database.
+            <p>In this section we will describe how our data is being processed from start to finish. The journey of our data starts from the Kaggle dataset. The dataset only includes the images with a filename of pattern: “artist_name_number.jpg”. From the filename we will extract the name of the painter for each portrait. Since this is the only data about each painting that we have, so far, we will enrich it by using DeepFace analyze feature to add age, gender, race and emotion of each of the people in the portrait. The object returned by this library call also includes the position of the face, which we do not believe to be relevant for our application, only for the painter-paintings selection for sizing down our database later on. 
             </p>
-            <p>After gathering all this data about our portraits, we move on to finding out more about our painters. To do so we will use Wikipedia API to search for a summary / description of the painter, the years it was alive and the art current they followed in their works. The “@type” for them is Person, and we add them to the painters collection of our Mongo database.</p>
+            <p>After gathering all this data about our portraits, we move on to finding out more about our painters. To do so we will use Wikipedia API to search for a summary / description of the painter, the years it was alive and the art current they followed in their works. Alter this step, we add them to the painters collection of our Mongo database.</p>
             <p>To be able to present all of our data, we will expose a few API endpoints from the backend of our application. We will then process the data in the frontend. Our users will be able to see a gallery view of some (or all) portraits, very similar to how the popular platform Pinterest looks like. Each painting will be clickable with a redirect to a page about the painter. The painter data on the page will be from the database and a correlation graph generated from querying the database.
             </p>
             <p>We will also have an upload image feature. For this feature, we will ask the user to choose from our list of painters and contribute with a portrait image that we do not feature from them. After making sure the image provided is of extension .jpeg/.jpg/.png/.gif, we will transmit this image and the name of the painter to be saved in our database. When saving to our database, there will be a Python script activated that processes the image using the DeepFace library to retrieve age, gender, race and emotion of the people in the uploaded image, in order to include this data in the JSON type file we will include in the database. </p>
+            <p>The last step our data goes through is inserting it into Blazegraph. For this we use a sparql query to insert information.</p>
+            <img src="../images/insert-query.png" alt="insert-example" width="850" height="350">
+        </section>
+        <section id="api">
+            <h2>API</h2>
+            <p>Our application implemented the APIs using Flask, due to its simplicity in launching a very simple server, capable of accepting multiple requests of different methods (POST, GET), accessing the request's data, handling user cookies, and having an easy way in which responses can be send back as JSON. The endpoints are described in much greater detail in the <a href="https://app.swaggerhub.com/apis/IOANAMALINA629/ImpWAPI/1" target="_blank">OpenAPI</a> specifications.</p>
+            <h3>Extrenal APIs</h3>
+            <p>We use DeepFaceAPI for facial attribute analysis which includes: age, gender, facial expression/emotion (anger, fear, neutral, sad, disgust, happiness, surprise) and race (Asian, White, Middle Eastern, Indian, Latino and Black) predictions. We call a function "analyze()" which takes as a parameter an image path and obtains for each portrait the data mentioned above.</p>
+            <p>We use the Wikipedia API to get information about each painter in the database, the ones we used are the years the artist lived, the artistic current and a short description of it</p>
+            <h3>Semantic API</h3>
+            <p>Our semantic API provides various endpoints that allow us to retrieve specific data based on our needs, such as getting portraits based on their emotion, retrieving a filtered list of portraits based on their painter, or getting the painter informaton for a selected portrait. All this information is integrated into our web application and can be accessed through the Portraits page.
+            </p>
+            <p>Valid html + RDFa generation: 
+                <br><img src="../images/rdfa.png" alt="rdfa" width="850" height="350">
+            <br><img src="../images/rdfa-graph.png" alt="rdfa-graph" width="850" height="350"><br>
+            </p>
+            <p>Valid jsonLD generation: 
+                <br><img src="../images/jsonld.png" alt="jsonld" width="850" height="350">
+                <br><img src="../images/jsonld-rep.png" alt="jsonLD" width="850" height="350"><br>
+            </p> 
+        
+            <p>Some sparql queries:
+                <br><img src="../images/insert-sparql.png" alt="sparql" width="850" height="350"/> 
+                <br><img src="../images/filter-sparql.png" alt="sparql" width="850" height="350"/><br>
+            </p>
         </section>
         <section id="use-cases">
             <h2>Use cases</h2>
             <h3>Task flows</h3>
-            <h4>Login/Register</h4>
-            <p>In order for the user to have access to our web application, it is mandatory to create an account first. This will be done with our custom login/register or we are considering allowing authentication using a service like Google, to make the process easier for users.
-                The Authentication Service is designed to be secure for users by implementing a method of storing and validating user credentials. For this reason, the password will be saved after is proccessed using an ecryption method, that involves a combination of hash and salt</p>
-                <img src="../images/login.png" alt="Login diagram" width="500" height="460">
             <h4>General user acccess</h4>
             <p>The user cam perform the following actions:
                 <ul>
-                    <li>Updating their personal profile.</li>
-                    <li>Deleting their profile</li>
-                    <li>Uploading a new image for existing painters</li>
+                    <li>Uploading a new image</li>
                     <li>View image gallery and filter the date acording to his preferences</li>
                     <li>Visualizing the painter information page</li> 
                 </ul>
                 <img src="../images/general-user.png" alt="general-user" width="500" height="460"/>
             </p>
-            <h4>Home/Gallery</h4>
+            <h4>Home/Paintings</h4>
             <p>On this page we will have a gallery of portraits from different painter. The user will be able to apply filters like: gender, painter and serch for images</p>
             <img src="../images/paintings.png" alt="paintings-gallery" width="500" height="460"/>
             <h4>Painter page</h4>
-            <p>The user can access thihs page by clicking on an image from the gallery. Here we will present some information abou the artist and some other paintings. The page allows the user to know information about the artist such as his artistic current and to discover other works of art.</p>
+            <p>The user can access this page by clicking on an image from the gallery. Here we will present some information abou the artist and some other paintings. The page allows the user to know information about the artist such as his artistic current and to discover other works of art.</p>
             <img src="../images/painter.png" alt="painter-page" width="500" height="460"/>
             <h4>Upload</h4>
-            <p>The upload page lets the user contribute to our paintings collection. The user will be able to upload a new painting from a painter we already have in our database, so we can have multiple recommendations</p>
+            <p>The upload page lets the user contribute to our paintings collection. The user will be able to upload a new painting, so we can have multiple recommendations</p>
             <img src="../images/upload.png" alt="upload-process" width="500" height="460"/>
-            <h4>User Profile</h4>
-            <p>The user will be able to view his profile, make changes and even delete his account</p>
-            <img src="../images/user-profile.png" alt="user-profile" width="500" height="460"/>
         </section>
         <section id="user-guide">
-
+            <h2>User guide</h2>
+            <h3>Local environment</h3>
+            <h5>The following system requirements are necessary in order to run our code on a local machine:</h5>
+            <p>For the frontend the following are needed:
+                @angular/animations: ^17.1.0,
+                @angular/cdk: ^17.1.1,
+                @angular/common: ^17.1.0,
+                @angular/compiler: ^17.1.0,
+                @angular/core: ^17.1.0,
+                @angular/forms: ^17.1.0,
+                @angular/material: ^17.1.2,
+                @angular/platform-browser: ^17.1.0,
+                @angular/platform-browser-dynamic: ^17.1.0,
+                @angular/router": ^17.1.0,
+                rxjs: ~7.8.0,
+                tslib: ^2.3.0,
+                zone.js: ~0.14.3
+            </p>
+            <p>For the backend side:
+                deepface==0.0.79
+                Flask==2.1.2
+                Flask_Cors==4.0.0
+                opencv_python==4.8.1.78
+                pymongo==4.6.1
+                rdflib==7.0.0
+                requests==2.27.1
+                SPARQLWrapper==2.0.0
+            </p>
+            <p>If is needed, local BlazeGraph can be configured and populated with data using the ontology.py file.</p>
+            <h3>User interface</h3>
+            <p>The <i>Paintings</i> page displays a collection of images in a visually appealing layout, allowing users to view multiple images at once. </p>
+            <img src="../images/paintigs.png" alt="paintings" width="800"/><br>
+            <p>This page has smart faceted searching & filtering, designed to efficiently search and filter through a collection of images based on various attributes or categories. </p>
+            <img src="../images/filter-images.png" alt="paintings" width="800"/><br>
+            <p> The <i>Painter</i> Page is designed to provide users with information regarding the artist whose artwork they've just clicked on. By clicking on an image on the "Paintings" page, users are redirected to this dedicated page, where they can explore the painter's background and view more of their artwork.</p>
+            <img src="../images/painter-page.png" alt="painter" width="800"/><br>
+            <p>The image upload functionality, available in <i>Upload</i> is clicked, is a feature designed to allow users to upload images, which will later be visible on the "Pictures" page of the application. Upon upload, the image is processed by external APIs and saved to both MongoDB and BlazeGraph, ensuring efficient storage and retrieval.</p>
+            <img src="../images/upload-page.png" alt="upload" width="800" /><br>
+        </section>
+        <section id="data-vizualization">
+            <h2>Visualizations of Data</h2>
+            <p>Our application exposes several portraits that can be filtered by features extracted with DeepFace. An overview of the data can be found in the following charts</p>
+            <img src="../images/emootion.png" alt="emotion"/>
+            <img src="../images/gender.png" alt="gender"/><br>
+            <img src="../images/race.png" alt="race"/><br>
         </section>
         <section id="linked-data-principles">
             <h2>Conformance to Linked Data Principles</h2>
@@ -163,7 +238,7 @@
                 The Resource Description Framework (RDF) is a standard model for data interchange on the Web. RDF has features that facilitate data merging even if the underlying schemas differ, and it specifically supports the evolution of schemas over time without requiring all the data consumers to be changed.
             </p>
             <p>
-                RDF extends the linking structure of the Web to use URIs to name the relationship between things as well as the two ends of the link (this is usually referred to as a “triple”). In our application, the data models for Paintings and Painters can be structured as triples, which is the standard format for RDF. Each triple consists of a subject, predicate, and object, which correspond to the painting or painter, the property, and the value of the property, respectively. Let's consider painting_id as the subject (Each painting will have an id). “@type”, image, painter, age, gender, race, and emotion are the predicates, and VisualArtwork, <image_url>, "Painter's_Name", 30, "Male", "Asian", and "Happy" are the objects.
+                RDF extends the linking structure of the Web to use URIs to name the relationship between things as well as the two ends of the link (this is usually referred to as a “triple”). In our application, the data models for Paintings and Painters are structured as triples, which is the standard format for RDF. Each triple consists of a subject, predicate, and object, which correspond to the painting or painter, the property, and the value of the property, respectively.
             </p>
         </section>
         <section id="preliminary-considerations">
