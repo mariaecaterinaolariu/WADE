@@ -110,7 +110,7 @@ def get_painters():
 def get_painter(name):
     #summary, lifespan, originalImage = deepfacewiki.get_wikipedia_summary(name)
     #painter = mongodb.get_painter_entity_from_collection(name)
-    password = "Mario1234"
+    password = ""
     connString = "mongodb+srv://mario:"+password+"@cluster.mjrpazd.mongodb.net/"
     client = MongoClient(connString)
     db = client['wade']
